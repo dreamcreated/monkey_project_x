@@ -1,0 +1,1 @@
+protoc.exe Login.proto scene_messages.proto --cpp_out=../messages

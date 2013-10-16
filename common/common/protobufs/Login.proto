@@ -1,0 +1,10 @@
+package common;
+
+message Login {
+  required string username = 1;
+  required string password = 2;
+}
+
+message LoginReturn {
+	required bool login_successed = 1;
+}

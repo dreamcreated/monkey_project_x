@@ -1,0 +1,11 @@
+package common;
+
+message scene_enter {
+	required int32 last_scene_id = 1;
+}
+
+message scene_move {
+  required int32 target_x = 1;
+  required int32 target_y = 2;
+  required int32 target_z = 3;
+}
