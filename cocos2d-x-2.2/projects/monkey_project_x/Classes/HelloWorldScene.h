@@ -17,6 +17,8 @@ public:
     
     // implement the "static node()" method manually
     CREATE_FUNC(HelloWorld);
+
+	void login_btn_release(CCObject*);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

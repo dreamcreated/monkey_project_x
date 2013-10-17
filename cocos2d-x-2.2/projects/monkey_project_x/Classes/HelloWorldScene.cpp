@@ -80,7 +80,9 @@ bool HelloWorld::init()
 	this->addChild(ui);
 	auto pUI = CCUIHELPER->createWidgetFromJsonFile("UI/DemoLogin/DemoLogin.json");
 	ui->addWidget(pUI);
-    
+	auto pBtn = dynamic_cast<UIButton*>(pUI->getChildByName("login_Button"));
+	pBtn->addReleaseEvent(this, coco_releaseselector(HelloWorld::login_btn_release));
+	CCLayer *layer = CCLayer::create();
     return true;
 }
 
@@ -95,4 +97,9 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
     exit(0);
 #endif
 #endif
+}
+
+void HelloWorld::login_btn_release( CCObject* )
+{
+	CCLog("btn tapped!");
 }

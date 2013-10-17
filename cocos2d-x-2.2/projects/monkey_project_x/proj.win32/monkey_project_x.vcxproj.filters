@@ -7,6 +7,21 @@
     <Filter Include="Classes">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\net">
+      <UniqueIdentifier>{203a7ff2-4519-4982-92d3-d895a05bebf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\logic">
+      <UniqueIdentifier>{6f86843f-46f5-4db1-9b01-9d7fc3b225be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\logic\system">
+      <UniqueIdentifier>{0da80177-efec-4cc4-9e47-01481d94a866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\scenes">
+      <UniqueIdentifier>{eb91f06a-5312-4a02-a60c-de23b92d03b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\UI">
+      <UniqueIdentifier>{a9e4f56b-703c-40eb-ae32-73fa844d4b2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -15,16 +30,39 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>Classes</Filter>
+    <ClCompile Include="..\Classes\game_network.cpp">
+      <Filter>Classes\net</Filter>
     </ClCompile>
-    <ClCompile Include="net\game_network.cpp" />
-    <ClCompile Include="net\game_session.cpp" />
-    <ClCompile Include="net\game_session_factory.cpp" />
-    <ClCompile Include="net\login_session.cpp" />
-    <ClCompile Include="net\login_session_factory.cpp" />
-    <ClCompile Include="logic\logic_context.cpp" />
-    <ClCompile Include="logic\system\scene_system.cpp" />
+    <ClCompile Include="..\Classes\game_session.cpp">
+      <Filter>Classes\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game_session_factory.cpp">
+      <Filter>Classes\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\login_session.cpp">
+      <Filter>Classes\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\login_session_factory.cpp">
+      <Filter>Classes\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\messages_queue_wrapper.cpp">
+      <Filter>Classes\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\logic_context.cpp">
+      <Filter>Classes\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scene_system.cpp">
+      <Filter>Classes\logic\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+      <Filter>Classes\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LoginScene.cpp">
+      <Filter>Classes\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LoadingScene.cpp">
+      <Filter>Classes\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -33,15 +71,38 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>Classes</Filter>
+    <ClInclude Include="..\Classes\game_network.h">
+      <Filter>Classes\net</Filter>
     </ClInclude>
-    <ClInclude Include="net\game_network.h" />
-    <ClInclude Include="net\game_session.h" />
-    <ClInclude Include="net\game_session_factory.h" />
-    <ClInclude Include="net\login_session.h" />
-    <ClInclude Include="net\login_session_factory.h" />
-    <ClInclude Include="logic\logic_context.h" />
-    <ClInclude Include="logic\system\scene_system.h" />
+    <ClInclude Include="..\Classes\game_session.h">
+      <Filter>Classes\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game_session_factory.h">
+      <Filter>Classes\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\login_session.h">
+      <Filter>Classes\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\login_session_factory.h">
+      <Filter>Classes\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\messages_queue_wrapper.h">
+      <Filter>Classes\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\logic_context.h">
+      <Filter>Classes\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scene_system.h">
+      <Filter>Classes\logic\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>Classes\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LoginScene.h">
+      <Filter>Classes\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LoadingScene.h">
+      <Filter>Classes\scenes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

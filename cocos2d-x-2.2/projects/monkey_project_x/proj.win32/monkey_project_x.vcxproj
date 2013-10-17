@@ -128,27 +128,33 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\game_network.cpp" />
+    <ClCompile Include="..\Classes\game_session.cpp" />
+    <ClCompile Include="..\Classes\game_session_factory.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
-    <ClCompile Include="logic\logic_context.cpp" />
-    <ClCompile Include="logic\system\scene_system.cpp" />
+    <ClCompile Include="..\Classes\LoadingScene.cpp" />
+    <ClCompile Include="..\Classes\logic_context.cpp" />
+    <ClCompile Include="..\Classes\LoginScene.cpp" />
+    <ClCompile Include="..\Classes\login_session.cpp" />
+    <ClCompile Include="..\Classes\login_session_factory.cpp" />
+    <ClCompile Include="..\Classes\messages_queue_wrapper.cpp" />
+    <ClCompile Include="..\Classes\scene_system.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="net\game_network.cpp" />
-    <ClCompile Include="net\game_session.cpp" />
-    <ClCompile Include="net\game_session_factory.cpp" />
-    <ClCompile Include="net\login_session.cpp" />
-    <ClCompile Include="net\login_session_factory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\game_network.h" />
+    <ClInclude Include="..\Classes\game_session.h" />
+    <ClInclude Include="..\Classes\game_session_factory.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
-    <ClInclude Include="logic\logic_context.h" />
-    <ClInclude Include="logic\system\scene_system.h" />
+    <ClInclude Include="..\Classes\LoadingScene.h" />
+    <ClInclude Include="..\Classes\logic_context.h" />
+    <ClInclude Include="..\Classes\LoginScene.h" />
+    <ClInclude Include="..\Classes\login_session.h" />
+    <ClInclude Include="..\Classes\login_session_factory.h" />
+    <ClInclude Include="..\Classes\messages_queue_wrapper.h" />
+    <ClInclude Include="..\Classes\scene_system.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="net\game_network.h" />
-    <ClInclude Include="net\game_session.h" />
-    <ClInclude Include="net\game_session_factory.h" />
-    <ClInclude Include="net\login_session.h" />
-    <ClInclude Include="net\login_session_factory.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\cocos2dx\proj.win32\cocos2d.vcxproj">

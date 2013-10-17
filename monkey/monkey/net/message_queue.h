@@ -21,6 +21,7 @@ public:
 	void async_stop();
 	void register_session_factory(boost::shared_ptr<session_factory_base> factory);
 	message_dispatcher& get_dispatcher();
+	void update();
 private:
 	void run();
 	std::queue<std::pair<boost::shared_ptr<connection>, boost::shared_ptr<google::protobuf::Message>>> messages_;

@@ -1,5 +1,5 @@
 #include "logic_context.h"
-#include "system/scene_system.h"
+#include "scene_system.h"
 #include <monkey/service/service_manager.h>
 
 

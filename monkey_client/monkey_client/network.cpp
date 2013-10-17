@@ -29,6 +29,11 @@ void network::send_message( const std::string& session_name, boost::shared_ptr<g
 	sessions_map_.at(session_name)->get_connection()->send_protobuf(message);
 }
 
+void network::async_start_without_message_queue()
+{
+	thread_.reset(new boost::thread(boost::bind(&boost::asio::io_service::run, io_service_)));
+}
+
 void network::async_start_service()
 {
 	message_queue::get_instance()->async_run();

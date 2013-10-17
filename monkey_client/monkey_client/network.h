@@ -21,6 +21,7 @@ public:
 	void send_message(const std::string& session_name, boost::shared_ptr<google::protobuf::Message> message);
 	void async_start_service();
 	void sync_start_service();
+	void async_start_without_message_queue();
 	void join();
 	virtual void on_connected( boost::shared_ptr<connection_client> connection) = 0;
 private:
