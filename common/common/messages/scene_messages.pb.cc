@@ -37,8 +37,9 @@ void protobuf_AssignDesc_scene_5fmessages_2eproto() {
       "scene_messages.proto");
   GOOGLE_CHECK(file != NULL);
   scene_enter_descriptor_ = file->message_type(0);
-  static const int scene_enter_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(scene_enter, last_scene_id_),
+  static const int scene_enter_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(scene_enter, scene_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(scene_enter, player_id_),
   };
   scene_enter_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -53,9 +54,9 @@ void protobuf_AssignDesc_scene_5fmessages_2eproto() {
       sizeof(scene_enter));
   scene_move_descriptor_ = file->message_type(1);
   static const int scene_move_offsets_[3] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(scene_move, player_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(scene_move, target_x_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(scene_move, target_y_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(scene_move, target_z_),
   };
   scene_move_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -102,10 +103,10 @@ void protobuf_AddDesc_scene_5fmessages_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\024scene_messages.proto\022\006common\"$\n\013scene_"
-    "enter\022\025\n\rlast_scene_id\030\001 \002(\005\"B\n\nscene_mo"
-    "ve\022\020\n\010target_x\030\001 \002(\005\022\020\n\010target_y\030\002 \002(\005\022\020"
-    "\n\010target_z\030\003 \002(\005", 136);
+    "\n\024scene_messages.proto\022\006common\"2\n\013scene_"
+    "enter\022\020\n\010scene_id\030\001 \002(\005\022\021\n\tplayer_id\030\002 \001"
+    "(\005\"C\n\nscene_move\022\021\n\tplayer_id\030\001 \001(\005\022\020\n\010t"
+    "arget_x\030\002 \002(\005\022\020\n\010target_y\030\003 \002(\005", 151);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "scene_messages.proto", &protobuf_RegisterTypes);
   scene_enter::default_instance_ = new scene_enter();
@@ -125,7 +126,8 @@ struct StaticDescriptorInitializer_scene_5fmessages_2eproto {
 // ===================================================================
 
 #ifndef _MSC_VER
-const int scene_enter::kLastSceneIdFieldNumber;
+const int scene_enter::kSceneIdFieldNumber;
+const int scene_enter::kPlayerIdFieldNumber;
 #endif  // !_MSC_VER
 
 scene_enter::scene_enter()
@@ -144,7 +146,8 @@ scene_enter::scene_enter(const scene_enter& from)
 
 void scene_enter::SharedCtor() {
   _cached_size_ = 0;
-  last_scene_id_ = 0;
+  scene_id_ = 0;
+  player_id_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -180,7 +183,8 @@ scene_enter* scene_enter::New() const {
 
 void scene_enter::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    last_scene_id_ = 0;
+    scene_id_ = 0;
+    player_id_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -192,14 +196,30 @@ bool scene_enter::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int32 last_scene_id = 1;
+      // required int32 scene_id = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &last_scene_id_)));
-          set_has_last_scene_id();
+                 input, &scene_id_)));
+          set_has_scene_id();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_player_id;
+        break;
+      }
+
+      // optional int32 player_id = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_player_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &player_id_)));
+          set_has_player_id();
         } else {
           goto handle_uninterpreted;
         }
@@ -225,9 +245,14 @@ bool scene_enter::MergePartialFromCodedStream(
 
 void scene_enter::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required int32 last_scene_id = 1;
-  if (has_last_scene_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->last_scene_id(), output);
+  // required int32 scene_id = 1;
+  if (has_scene_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->scene_id(), output);
+  }
+
+  // optional int32 player_id = 2;
+  if (has_player_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->player_id(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -238,9 +263,14 @@ void scene_enter::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* scene_enter::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required int32 last_scene_id = 1;
-  if (has_last_scene_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->last_scene_id(), target);
+  // required int32 scene_id = 1;
+  if (has_scene_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->scene_id(), target);
+  }
+
+  // optional int32 player_id = 2;
+  if (has_player_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->player_id(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -254,11 +284,18 @@ int scene_enter::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required int32 last_scene_id = 1;
-    if (has_last_scene_id()) {
+    // required int32 scene_id = 1;
+    if (has_scene_id()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->last_scene_id());
+          this->scene_id());
+    }
+
+    // optional int32 player_id = 2;
+    if (has_player_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->player_id());
     }
 
   }
@@ -288,8 +325,11 @@ void scene_enter::MergeFrom(const ::google::protobuf::Message& from) {
 void scene_enter::MergeFrom(const scene_enter& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_last_scene_id()) {
-      set_last_scene_id(from.last_scene_id());
+    if (from.has_scene_id()) {
+      set_scene_id(from.scene_id());
+    }
+    if (from.has_player_id()) {
+      set_player_id(from.player_id());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -315,7 +355,8 @@ bool scene_enter::IsInitialized() const {
 
 void scene_enter::Swap(scene_enter* other) {
   if (other != this) {
-    std::swap(last_scene_id_, other->last_scene_id_);
+    std::swap(scene_id_, other->scene_id_);
+    std::swap(player_id_, other->player_id_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -334,9 +375,9 @@ void scene_enter::Swap(scene_enter* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int scene_move::kPlayerIdFieldNumber;
 const int scene_move::kTargetXFieldNumber;
 const int scene_move::kTargetYFieldNumber;
-const int scene_move::kTargetZFieldNumber;
 #endif  // !_MSC_VER
 
 scene_move::scene_move()
@@ -355,9 +396,9 @@ scene_move::scene_move(const scene_move& from)
 
 void scene_move::SharedCtor() {
   _cached_size_ = 0;
+  player_id_ = 0;
   target_x_ = 0;
   target_y_ = 0;
-  target_z_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -393,9 +434,9 @@ scene_move* scene_move::New() const {
 
 void scene_move::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    player_id_ = 0;
     target_x_ = 0;
     target_y_ = 0;
-    target_z_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -407,10 +448,26 @@ bool scene_move::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int32 target_x = 1;
+      // optional int32 player_id = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &player_id_)));
+          set_has_player_id();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_target_x;
+        break;
+      }
+
+      // required int32 target_x = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_target_x:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &target_x_)));
@@ -418,12 +475,12 @@ bool scene_move::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(16)) goto parse_target_y;
+        if (input->ExpectTag(24)) goto parse_target_y;
         break;
       }
 
-      // required int32 target_y = 2;
-      case 2: {
+      // required int32 target_y = 3;
+      case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_target_y:
@@ -431,22 +488,6 @@ bool scene_move::MergePartialFromCodedStream(
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &target_y_)));
           set_has_target_y();
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(24)) goto parse_target_z;
-        break;
-      }
-
-      // required int32 target_z = 3;
-      case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-         parse_target_z:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &target_z_)));
-          set_has_target_z();
         } else {
           goto handle_uninterpreted;
         }
@@ -472,19 +513,19 @@ bool scene_move::MergePartialFromCodedStream(
 
 void scene_move::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required int32 target_x = 1;
+  // optional int32 player_id = 1;
+  if (has_player_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->player_id(), output);
+  }
+
+  // required int32 target_x = 2;
   if (has_target_x()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->target_x(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->target_x(), output);
   }
 
-  // required int32 target_y = 2;
+  // required int32 target_y = 3;
   if (has_target_y()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->target_y(), output);
-  }
-
-  // required int32 target_z = 3;
-  if (has_target_z()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->target_z(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->target_y(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -495,19 +536,19 @@ void scene_move::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* scene_move::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required int32 target_x = 1;
+  // optional int32 player_id = 1;
+  if (has_player_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->player_id(), target);
+  }
+
+  // required int32 target_x = 2;
   if (has_target_x()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->target_x(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->target_x(), target);
   }
 
-  // required int32 target_y = 2;
+  // required int32 target_y = 3;
   if (has_target_y()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->target_y(), target);
-  }
-
-  // required int32 target_z = 3;
-  if (has_target_z()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->target_z(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->target_y(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -521,25 +562,25 @@ int scene_move::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required int32 target_x = 1;
+    // optional int32 player_id = 1;
+    if (has_player_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->player_id());
+    }
+
+    // required int32 target_x = 2;
     if (has_target_x()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->target_x());
     }
 
-    // required int32 target_y = 2;
+    // required int32 target_y = 3;
     if (has_target_y()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->target_y());
-    }
-
-    // required int32 target_z = 3;
-    if (has_target_z()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->target_z());
     }
 
   }
@@ -569,14 +610,14 @@ void scene_move::MergeFrom(const ::google::protobuf::Message& from) {
 void scene_move::MergeFrom(const scene_move& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_player_id()) {
+      set_player_id(from.player_id());
+    }
     if (from.has_target_x()) {
       set_target_x(from.target_x());
     }
     if (from.has_target_y()) {
       set_target_y(from.target_y());
-    }
-    if (from.has_target_z()) {
-      set_target_z(from.target_z());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -595,16 +636,16 @@ void scene_move::CopyFrom(const scene_move& from) {
 }
 
 bool scene_move::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x00000006) != 0x00000006) return false;
 
   return true;
 }
 
 void scene_move::Swap(scene_move* other) {
   if (other != this) {
+    std::swap(player_id_, other->player_id_);
     std::swap(target_x_, other->target_x_);
     std::swap(target_y_, other->target_y_);
-    std::swap(target_z_, other->target_z_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

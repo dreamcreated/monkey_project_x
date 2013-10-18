@@ -201,17 +201,27 @@ class LoginReturn : public ::google::protobuf::Message {
   inline bool login_successed() const;
   inline void set_login_successed(bool value);
 
+  // optional int32 player_id = 2;
+  inline bool has_player_id() const;
+  inline void clear_player_id();
+  static const int kPlayerIdFieldNumber = 2;
+  inline ::google::protobuf::int32 player_id() const;
+  inline void set_player_id(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:common.LoginReturn)
  private:
   inline void set_has_login_successed();
   inline void clear_has_login_successed();
+  inline void set_has_player_id();
+  inline void clear_has_player_id();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   bool login_successed_;
+  ::google::protobuf::int32 player_id_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   friend void  protobuf_AddDesc_Login_2eproto();
   friend void protobuf_AssignDesc_Login_2eproto();
@@ -391,6 +401,28 @@ inline bool LoginReturn::login_successed() const {
 inline void LoginReturn::set_login_successed(bool value) {
   set_has_login_successed();
   login_successed_ = value;
+}
+
+// optional int32 player_id = 2;
+inline bool LoginReturn::has_player_id() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void LoginReturn::set_has_player_id() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void LoginReturn::clear_has_player_id() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void LoginReturn::clear_player_id() {
+  player_id_ = 0;
+  clear_has_player_id();
+}
+inline ::google::protobuf::int32 LoginReturn::player_id() const {
+  return player_id_;
+}
+inline void LoginReturn::set_player_id(::google::protobuf::int32 value) {
+  set_has_player_id();
+  player_id_ = value;
 }
 
 

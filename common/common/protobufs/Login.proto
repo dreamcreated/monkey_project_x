@@ -7,4 +7,5 @@ message Login {
 
 message LoginReturn {
 	required bool login_successed = 1;
+	optional int32 player_id = 2;
 }

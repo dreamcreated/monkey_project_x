@@ -1,11 +1,12 @@
 package common;
 
 message scene_enter {
-	required int32 last_scene_id = 1;
+	required int32 scene_id = 1;
+	optional int32 player_id = 2;
 }
 
 message scene_move {
-  required int32 target_x = 1;
-  required int32 target_y = 2;
-  required int32 target_z = 3;
+	optional int32 player_id = 1;
+	required int32 target_x = 2;
+	required int32 target_y = 3;
 }

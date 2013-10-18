@@ -62,7 +62,7 @@ void LoginScene::loginRelease( CCObject* sender )
 	auto pTBPassword = dynamic_cast<UITextField*>(pWidget->getChildByName("password_TextField"));
 	boost::shared_ptr<common::Login> pMsgLogin(new common::Login);
 	pMsgLogin->set_username(pTBName->getStringValue());
-	pMsgLogin->set_password(pTBName->getStringValue());
+	pMsgLogin->set_password(pTBPassword->getStringValue());
 	auto pConnection = game_network::get_instance()->create_connection("127.0.0.1", "1991");
 	pConnection->set_tag(GAME_SESSION);
 	game_network::get_instance()->send_message_after_connected_send(SESSIONS::GAME_SESSION, pMsgLogin);

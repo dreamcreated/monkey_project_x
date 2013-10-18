@@ -2,6 +2,7 @@
 #include <common/messages/Login.pb.h>
 #include "game_network.h"
 #include <boost/lexical_cast.hpp>
+#include "ClientUserData.h"
 
 
 game_session_factory::game_session_factory(void)
@@ -17,6 +18,9 @@ bool game_session_factory::verify_connection( boost::shared_ptr<monkey::net::con
 {
 	auto p_login_return = boost::dynamic_pointer_cast<common::LoginReturn>(message);
 	if (p_login_return) {
+		if (p_login_return->login_successed()) {
+			ClientUserData::get_instance()->Player_id(p_login_return->player_id());
+		}
 		return p_login_return->login_successed();
 	}
 	return false;

@@ -92,24 +92,34 @@ class scene_enter : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required int32 last_scene_id = 1;
-  inline bool has_last_scene_id() const;
-  inline void clear_last_scene_id();
-  static const int kLastSceneIdFieldNumber = 1;
-  inline ::google::protobuf::int32 last_scene_id() const;
-  inline void set_last_scene_id(::google::protobuf::int32 value);
+  // required int32 scene_id = 1;
+  inline bool has_scene_id() const;
+  inline void clear_scene_id();
+  static const int kSceneIdFieldNumber = 1;
+  inline ::google::protobuf::int32 scene_id() const;
+  inline void set_scene_id(::google::protobuf::int32 value);
+
+  // optional int32 player_id = 2;
+  inline bool has_player_id() const;
+  inline void clear_player_id();
+  static const int kPlayerIdFieldNumber = 2;
+  inline ::google::protobuf::int32 player_id() const;
+  inline void set_player_id(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:common.scene_enter)
  private:
-  inline void set_has_last_scene_id();
-  inline void clear_has_last_scene_id();
+  inline void set_has_scene_id();
+  inline void clear_has_scene_id();
+  inline void set_has_player_id();
+  inline void clear_has_player_id();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::google::protobuf::int32 last_scene_id_;
+  ::google::protobuf::int32 scene_id_;
+  ::google::protobuf::int32 player_id_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   friend void  protobuf_AddDesc_scene_5fmessages_2eproto();
   friend void protobuf_AssignDesc_scene_5fmessages_2eproto();
@@ -174,41 +184,41 @@ class scene_move : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required int32 target_x = 1;
+  // optional int32 player_id = 1;
+  inline bool has_player_id() const;
+  inline void clear_player_id();
+  static const int kPlayerIdFieldNumber = 1;
+  inline ::google::protobuf::int32 player_id() const;
+  inline void set_player_id(::google::protobuf::int32 value);
+
+  // required int32 target_x = 2;
   inline bool has_target_x() const;
   inline void clear_target_x();
-  static const int kTargetXFieldNumber = 1;
+  static const int kTargetXFieldNumber = 2;
   inline ::google::protobuf::int32 target_x() const;
   inline void set_target_x(::google::protobuf::int32 value);
 
-  // required int32 target_y = 2;
+  // required int32 target_y = 3;
   inline bool has_target_y() const;
   inline void clear_target_y();
-  static const int kTargetYFieldNumber = 2;
+  static const int kTargetYFieldNumber = 3;
   inline ::google::protobuf::int32 target_y() const;
   inline void set_target_y(::google::protobuf::int32 value);
 
-  // required int32 target_z = 3;
-  inline bool has_target_z() const;
-  inline void clear_target_z();
-  static const int kTargetZFieldNumber = 3;
-  inline ::google::protobuf::int32 target_z() const;
-  inline void set_target_z(::google::protobuf::int32 value);
-
   // @@protoc_insertion_point(class_scope:common.scene_move)
  private:
+  inline void set_has_player_id();
+  inline void clear_has_player_id();
   inline void set_has_target_x();
   inline void clear_has_target_x();
   inline void set_has_target_y();
   inline void clear_has_target_y();
-  inline void set_has_target_z();
-  inline void clear_has_target_z();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
+  ::google::protobuf::int32 player_id_;
   ::google::protobuf::int32 target_x_;
   ::google::protobuf::int32 target_y_;
-  ::google::protobuf::int32 target_z_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
@@ -227,41 +237,85 @@ class scene_move : public ::google::protobuf::Message {
 
 // scene_enter
 
-// required int32 last_scene_id = 1;
-inline bool scene_enter::has_last_scene_id() const {
+// required int32 scene_id = 1;
+inline bool scene_enter::has_scene_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void scene_enter::set_has_last_scene_id() {
+inline void scene_enter::set_has_scene_id() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void scene_enter::clear_has_last_scene_id() {
+inline void scene_enter::clear_has_scene_id() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void scene_enter::clear_last_scene_id() {
-  last_scene_id_ = 0;
-  clear_has_last_scene_id();
+inline void scene_enter::clear_scene_id() {
+  scene_id_ = 0;
+  clear_has_scene_id();
 }
-inline ::google::protobuf::int32 scene_enter::last_scene_id() const {
-  return last_scene_id_;
+inline ::google::protobuf::int32 scene_enter::scene_id() const {
+  return scene_id_;
 }
-inline void scene_enter::set_last_scene_id(::google::protobuf::int32 value) {
-  set_has_last_scene_id();
-  last_scene_id_ = value;
+inline void scene_enter::set_scene_id(::google::protobuf::int32 value) {
+  set_has_scene_id();
+  scene_id_ = value;
+}
+
+// optional int32 player_id = 2;
+inline bool scene_enter::has_player_id() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void scene_enter::set_has_player_id() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void scene_enter::clear_has_player_id() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void scene_enter::clear_player_id() {
+  player_id_ = 0;
+  clear_has_player_id();
+}
+inline ::google::protobuf::int32 scene_enter::player_id() const {
+  return player_id_;
+}
+inline void scene_enter::set_player_id(::google::protobuf::int32 value) {
+  set_has_player_id();
+  player_id_ = value;
 }
 
 // -------------------------------------------------------------------
 
 // scene_move
 
-// required int32 target_x = 1;
-inline bool scene_move::has_target_x() const {
+// optional int32 player_id = 1;
+inline bool scene_move::has_player_id() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void scene_move::set_has_target_x() {
+inline void scene_move::set_has_player_id() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void scene_move::clear_has_target_x() {
+inline void scene_move::clear_has_player_id() {
   _has_bits_[0] &= ~0x00000001u;
+}
+inline void scene_move::clear_player_id() {
+  player_id_ = 0;
+  clear_has_player_id();
+}
+inline ::google::protobuf::int32 scene_move::player_id() const {
+  return player_id_;
+}
+inline void scene_move::set_player_id(::google::protobuf::int32 value) {
+  set_has_player_id();
+  player_id_ = value;
+}
+
+// required int32 target_x = 2;
+inline bool scene_move::has_target_x() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void scene_move::set_has_target_x() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void scene_move::clear_has_target_x() {
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void scene_move::clear_target_x() {
   target_x_ = 0;
@@ -275,15 +329,15 @@ inline void scene_move::set_target_x(::google::protobuf::int32 value) {
   target_x_ = value;
 }
 
-// required int32 target_y = 2;
+// required int32 target_y = 3;
 inline bool scene_move::has_target_y() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void scene_move::set_has_target_y() {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void scene_move::clear_has_target_y() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void scene_move::clear_target_y() {
   target_y_ = 0;
@@ -295,28 +349,6 @@ inline ::google::protobuf::int32 scene_move::target_y() const {
 inline void scene_move::set_target_y(::google::protobuf::int32 value) {
   set_has_target_y();
   target_y_ = value;
-}
-
-// required int32 target_z = 3;
-inline bool scene_move::has_target_z() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void scene_move::set_has_target_z() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void scene_move::clear_has_target_z() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void scene_move::clear_target_z() {
-  target_z_ = 0;
-  clear_has_target_z();
-}
-inline ::google::protobuf::int32 scene_move::target_z() const {
-  return target_z_;
-}
-inline void scene_move::set_target_z(::google::protobuf::int32 value) {
-  set_has_target_z();
-  target_z_ = value;
 }
 
 

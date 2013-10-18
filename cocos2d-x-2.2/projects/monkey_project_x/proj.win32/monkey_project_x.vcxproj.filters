@@ -22,6 +22,9 @@
     <Filter Include="Classes\UI">
       <UniqueIdentifier>{a9e4f56b-703c-40eb-ae32-73fa844d4b2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\data">
+      <UniqueIdentifier>{50fdbc09-2ff7-4b81-8aed-f31b30ed5f2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -63,6 +66,15 @@
     <ClCompile Include="..\Classes\LoadingScene.cpp">
       <Filter>Classes\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MainScene.cpp">
+      <Filter>Classes\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MapLayer.cpp">
+      <Filter>Classes\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ClientUserData.cpp">
+      <Filter>Classes\data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -103,6 +115,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\LoadingScene.h">
       <Filter>Classes\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainScene.h">
+      <Filter>Classes\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MapLayer.h">
+      <Filter>Classes\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ClientUserData.h">
+      <Filter>Classes\data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

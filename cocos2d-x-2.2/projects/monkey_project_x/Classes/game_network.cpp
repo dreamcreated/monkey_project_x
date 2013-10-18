@@ -3,6 +3,7 @@
 #include <common/messages/scene_messages.pb.h>
 #include "cocos2d.h"
 #include <boost/lexical_cast.hpp>
+#include "MainScene.h"
 
 
 game_network::game_network(void)
@@ -27,6 +28,9 @@ void game_network::on_connected( boost::shared_ptr<connection_client> connection
 	}
 	else if (connection->tag() == GAME_SESSION)  {
 		CCLOG("connected!");
+		boost::shared_ptr<common::scene_enter> pSceneEnter(new common::scene_enter);
+		pSceneEnter->set_scene_id(1);
+		connection->send_protobuf(pSceneEnter);
 	}
 }
 

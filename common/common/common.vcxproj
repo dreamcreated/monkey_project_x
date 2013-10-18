@@ -84,10 +84,12 @@
   <ItemGroup>
     <ClCompile Include="messages\Login.pb.cc" />
     <ClCompile Include="messages\scene_messages.pb.cc" />
+    <ClCompile Include="userdata\UserData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="messages\Login.pb.h" />
     <ClInclude Include="messages\scene_messages.pb.h" />
+    <ClInclude Include="userdata\UserData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

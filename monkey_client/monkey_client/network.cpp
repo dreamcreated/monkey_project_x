@@ -5,6 +5,7 @@ using namespace monkey::net;
 network::network(void)
 {
 	io_service_.reset(new boost::asio::io_service());
+	work_.reset(new boost::asio::io_service::work(*io_service_));
 }
 
 
@@ -48,7 +49,9 @@ void network::sync_start_service()
 
 void network::join()
 {
-	thread_->join();
+	io_service_->stop();
+	if (thread_)
+		thread_->join();
 	message_queue::get_instance()->async_stop();
 }
 

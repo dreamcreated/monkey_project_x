@@ -11,6 +11,7 @@ class scene_system
 public:
 
 	static void on_scene_enter(boost::shared_ptr<monkey::net::session> pSession, boost::shared_ptr<common::scene_enter> msg);
+	static void on_scene_move(boost::shared_ptr<monkey::net::session> pSession, boost::shared_ptr<common::scene_move> msg);
 
 	bool init();
 	void fint();

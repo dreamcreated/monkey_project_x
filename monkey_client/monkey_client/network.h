@@ -28,5 +28,6 @@ private:
 	std::map<std::string, boost::shared_ptr<monkey::net::session>> sessions_map_;
 	boost::shared_ptr<boost::thread> thread_;
 	boost::shared_ptr<boost::asio::io_service > io_service_;
+	boost::shared_ptr<boost::asio::io_service::work> work_;
 };
 

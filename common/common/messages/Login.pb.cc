@@ -53,8 +53,9 @@ void protobuf_AssignDesc_Login_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Login));
   LoginReturn_descriptor_ = file->message_type(1);
-  static const int LoginReturn_offsets_[1] = {
+  static const int LoginReturn_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginReturn, login_successed_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginReturn, player_id_),
   };
   LoginReturn_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -102,8 +103,9 @@ void protobuf_AddDesc_Login_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\013Login.proto\022\006common\"+\n\005Login\022\020\n\010userna"
-    "me\030\001 \002(\t\022\020\n\010password\030\002 \002(\t\"&\n\013LoginRetur"
-    "n\022\027\n\017login_successed\030\001 \002(\010", 106);
+    "me\030\001 \002(\t\022\020\n\010password\030\002 \002(\t\"9\n\013LoginRetur"
+    "n\022\027\n\017login_successed\030\001 \002(\010\022\021\n\tplayer_id\030"
+    "\002 \001(\005", 125);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Login.proto", &protobuf_RegisterTypes);
   Login::default_instance_ = new Login();
@@ -407,6 +409,7 @@ void Login::Swap(Login* other) {
 
 #ifndef _MSC_VER
 const int LoginReturn::kLoginSuccessedFieldNumber;
+const int LoginReturn::kPlayerIdFieldNumber;
 #endif  // !_MSC_VER
 
 LoginReturn::LoginReturn()
@@ -426,6 +429,7 @@ LoginReturn::LoginReturn(const LoginReturn& from)
 void LoginReturn::SharedCtor() {
   _cached_size_ = 0;
   login_successed_ = false;
+  player_id_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -462,6 +466,7 @@ LoginReturn* LoginReturn::New() const {
 void LoginReturn::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     login_successed_ = false;
+    player_id_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -481,6 +486,22 @@ bool LoginReturn::MergePartialFromCodedStream(
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
                  input, &login_successed_)));
           set_has_login_successed();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_player_id;
+        break;
+      }
+
+      // optional int32 player_id = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_player_id:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &player_id_)));
+          set_has_player_id();
         } else {
           goto handle_uninterpreted;
         }
@@ -511,6 +532,11 @@ void LoginReturn::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->login_successed(), output);
   }
 
+  // optional int32 player_id = 2;
+  if (has_player_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->player_id(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -522,6 +548,11 @@ void LoginReturn::SerializeWithCachedSizes(
   // required bool login_successed = 1;
   if (has_login_successed()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(1, this->login_successed(), target);
+  }
+
+  // optional int32 player_id = 2;
+  if (has_player_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->player_id(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -538,6 +569,13 @@ int LoginReturn::ByteSize() const {
     // required bool login_successed = 1;
     if (has_login_successed()) {
       total_size += 1 + 1;
+    }
+
+    // optional int32 player_id = 2;
+    if (has_player_id()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->player_id());
     }
 
   }
@@ -570,6 +608,9 @@ void LoginReturn::MergeFrom(const LoginReturn& from) {
     if (from.has_login_successed()) {
       set_login_successed(from.login_successed());
     }
+    if (from.has_player_id()) {
+      set_player_id(from.player_id());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -595,6 +636,7 @@ bool LoginReturn::IsInitialized() const {
 void LoginReturn::Swap(LoginReturn* other) {
   if (other != this) {
     std::swap(login_successed_, other->login_successed_);
+    std::swap(player_id_, other->player_id_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
