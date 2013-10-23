@@ -8,6 +8,7 @@
 #include <monkey/net/message_queue.h>
 #include "logic_context.h"
 #include "cocos-ext.h"
+#include "MainScene.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -28,8 +29,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CCDirector* pDirector = CCDirector::sharedDirector();
 	CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 	pDirector->setOpenGLView(pEGLView);
-	CCSize screenSize = pEGLView->getFrameSize();
-	CCSize designSize = CCSizeMake(APP_WIDTH, APP_HEIGHT);
 	//TODO 设置SD版本和HD版本的资源搜索路径用以下函数:
 	//CCFileUtils::sharedFileUtils()->setSearchPaths()
 	pEGLView->setFrameSize(960, 640);
@@ -52,8 +51,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 
     // run
-
-    pDirector->runWithScene(LoadingScene::scene());
+    //pDirector->runWithScene(LoadingScene::scene());
+	auto pMainScene = MainScene::create();
+	pMainScene->ChangeMap(1);
+	pDirector->runWithScene(pMainScene);
 
     return true;
 }
