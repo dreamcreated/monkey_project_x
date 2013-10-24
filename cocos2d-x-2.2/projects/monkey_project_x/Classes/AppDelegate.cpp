@@ -21,8 +21,8 @@ AppDelegate::~AppDelegate()
 {
 }
 
-#define APP_WIDTH 480
-#define APP_HEIGHT 320
+#define APP_WIDTH 960
+#define APP_HEIGHT 640
 
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director

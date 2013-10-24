@@ -35,14 +35,12 @@ bool MapLayer::init()
 
 int MapLayer::GetMapWidth()
 {
-	auto mapLayer = this->getChildByTag(kMapLayerTag);
-	return mapLayer->getContentSize().width;
+	return 1024;
 }
 
 int MapLayer::GetMapHeight()
 {
-	auto mapLayer = this->getChildByTag(kMapLayerTag);
-	return mapLayer->getContentSize().height;
+	return 768;
 }
 
 // void MapLayer::ccTouchesBegan( CCSet *pTouches, CCEvent *pEvent )
@@ -200,13 +198,48 @@ PlayerSprite* MapLayer::GetHeroSprite()
 
 void MapLayer::heroMoveComplete( CCObject* pTouch )
 {
+	auto designSize = CCDirector::sharedDirector()->getOpenGLView()->getDesignResolutionSize();
 	auto pHero = GetHeroSprite();
 	auto pMapLayer = GetMapLayer();
 	auto pTouchReal = dynamic_cast<CCTouch*>(pTouch);
-	auto pMove = pHero->GetMoveByActionByDistanceForMap(pHero->getPosition().getDistance(pTouchReal->getLocation()), pTouchReal->getLocation());
-	auto sequence = CCSequence::createWithTwoActions(pMove, CCCallFunc::create(this, callfunc_selector(MapLayer::allMoveComplete)));
-	sequence->setTag(pMove->getTag());
-	pMapLayer->runAction(sequence);
+	auto movePoint = pTouchReal->getLocation() - pHero->getPosition();
+	auto mapLayerPosition = pMapLayer->getPosition();
+	CCPoint mapTarget = ccpAdd(mapLayerPosition, movePoint);
+	CCPoint heroTarget;
+	bool isEdge = false;
+	if (mapTarget.x < 0 ) {
+		heroTarget.x = -mapTarget.x - pMapLayer->getPositionX();
+		mapTarget.x = 0;
+		isEdge = true;
+	}
+	if (mapTarget.y < 0) {
+		heroTarget.y = -mapTarget.y - pMapLayer->getPositionY();
+		mapTarget.y = 0;
+		isEdge = true;
+	}
+	if (mapTarget.x > GetMapWidth() - designSize.width) {
+		heroTarget.x = -mapTarget.x + GetMapWidth() - designSize.width - pMapLayer->getPositionX();
+		mapTarget.x = GetMapWidth() - designSize.width;
+		isEdge = true;
+	}
+	if (mapTarget.y > GetMapHeight() - designSize.height) {
+		heroTarget.y = -mapTarget.y + GetMapHeight() - designSize.height - pMapLayer->getPositionY();
+		mapTarget.y = GetMapHeight() - designSize.height;
+		isEdge = true;
+	}
+	auto pMove = pHero->GetMoveByActionByDistance(pHero->getPosition().getDistance(mapTarget), mapTarget);
+	if(isEdge) {
+		pMapLayer->runAction(CCSequence::createWithTwoActions(pMove, CCCallFunc::create(this, callfunc_selector(MapLayer::allMoveComplete))));
+		pHero->runAction(
+			CCSequence::createWithTwoActions(
+			CCDelayTime::create(pMove->getDuration()), 
+			pHero->GetMoveByActionByDistance(pHero->getPosition().getDistance(heroTarget), heroTarget)));
+	}
+	else {
+		auto sequence = CCSequence::createWithTwoActions(pMove, CCCallFunc::create(this, callfunc_selector(MapLayer::allMoveComplete)));
+		sequence->setTag(pMove->getTag());
+		pMapLayer->runAction(sequence);
+	}
 	pTouchReal->release();
 }
 
