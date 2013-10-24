@@ -83,11 +83,10 @@ void MapLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 	auto pDirector = CCDirector::sharedDirector();
 	auto designSize = pDirector->getOpenGLView()->getDesignResolutionSize();
 	pHero->stopActionByTag(PlayerSprite::kWalkActionTag);
+	pHero->stopActionByTag(kReverseToCenterPointActionTag);
 	GetMapLayer()->stopActionByTag(PlayerSprite::kWalkActionTag);
+	GetMapLayer()->stopActionByTag(kReverseToCenterPointActionTag);
 
-	auto distance = pHero->getPosition().getDistance(pTouch->getLocation());
-
-	float s, t;
 // 	CCPoint leftTopPoint = ccp(m_heroMoveRect.getMinX(), m_heroMoveRect.getMaxY());
 // 	CCPoint rightTopPoint = ccp(m_heroMoveRect.getMaxX(), m_heroMoveRect.getMaxY());
 // 	CCPoint leftBottomPoint = ccp(m_heroMoveRect.getMinX(), m_heroMoveRect.getMinY());
@@ -108,44 +107,74 @@ void MapLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 	CCPoint heroPosition = pHero->getPosition();
 	CCPoint targetPosition = pTouch->getLocation();
 	
-	if (ccpSegmentIntersect(line1Point1, line1Point2
-		, heroPosition, targetPosition)) {
-			intersectPoint = ccpIntersectPoint(line1Point1, line1Point2
-				, heroPosition, targetPosition);
-			isIntersect = true;
-			intersectPoint.x += 5;
+	if (pHero->getPosition().y > line1Point1.y) {
+		if (ccpSegmentIntersect(line1Point1, line1Point2
+			, heroPosition, targetPosition)) {
+				intersectPoint = ccpIntersectPoint(line1Point1, line1Point2
+					, heroPosition, targetPosition);
+				isIntersect = true;
+				intersectPoint.y += 5;
+		}
 	}
-	else if (ccpSegmentIntersect(line2Point1, line2Point2
-		, heroPosition, targetPosition)) {
-			intersectPoint = ccpIntersectPoint(line2Point1, line2Point2
-				, heroPosition, targetPosition);
-			isIntersect = true;
-			intersectPoint.x -= 5;
+	if (pHero->getPosition().y <= line2Point1.y) {
+		if (ccpSegmentIntersect(line2Point1, line2Point2
+			, heroPosition, targetPosition)) {
+				auto p = ccpIntersectPoint(line2Point1, line2Point2
+					, heroPosition, targetPosition);
+				if ((intersectPoint.x == CCPointZero.x && intersectPoint.y == CCPointZero.y) 
+					|| (pHero->getPosition().getDistance(p) < pHero->getPosition().getDistance(intersectPoint))) {
+						intersectPoint = p;
+				}
+				isIntersect = true;
+				intersectPoint.y -= 5;
+		}
 	}
-	else if (ccpSegmentIntersect(line3Point1, line3Point2
-		, heroPosition, targetPosition)) {
-			intersectPoint = ccpIntersectPoint(line3Point1, line3Point2
-				, heroPosition, targetPosition);
-			isIntersect = true;
-			intersectPoint.y += 5;
+	if (pHero->getPosition().x >= line3Point1.x) {
+		if (ccpSegmentIntersect(line3Point1, line3Point2
+			, heroPosition, targetPosition)) {
+				auto p = ccpIntersectPoint(line3Point1, line3Point2
+					, heroPosition, targetPosition);
+				if ((intersectPoint.x == CCPointZero.x && intersectPoint.y == CCPointZero.y) 
+					|| (pHero->getPosition().getDistance(p) < pHero->getPosition().getDistance(intersectPoint))) {
+						intersectPoint = p;
+				}
+				isIntersect = true;
+				intersectPoint.x += 5;
+		}
 	}
-	else if (ccpSegmentIntersect(line4Point1, line4Point2
-		, heroPosition, targetPosition)) {
-			intersectPoint = ccpIntersectPoint(line4Point1, line4Point2
-				, heroPosition, targetPosition);
-			intersectPoint.y -= 5;
-			isIntersect = true;
-	}
-	else {			//目标点和移动框内四条线段都没有相交
-		pHero->runAction(pHero->GetMoveByActionByDistance(distance, pTouch->getLocation()));
+	if (pHero->getPosition().x < line4Point1.x) {
+		if (ccpSegmentIntersect(line4Point1, line4Point2
+			, heroPosition, targetPosition)) {
+				auto p = ccpIntersectPoint(line4Point1, line4Point2
+					, heroPosition, targetPosition);
+				if ((intersectPoint.x == CCPointZero.x && intersectPoint.y == CCPointZero.y) 
+					|| (pHero->getPosition().getDistance(p) < pHero->getPosition().getDistance(intersectPoint))) {
+						intersectPoint = p;
+				}
+				intersectPoint.x -= 5;
+				isIntersect = true;
+		}
 	}
 	if(isIntersect) {
+		auto distance = pHero->getPosition().getDistance(intersectPoint);
 		pTouch->retain();
-		auto pAction = 
-			CCSequence::create(pHero->GetMoveByActionByDistance(distance, intersectPoint)
-			, CCCallFuncO::create(this, callfuncO_selector(MapLayer::heroMoveComplete), pTouch), NULL);
-		pAction->setTag(PlayerSprite::kWalkActionTag);
-		pHero->runAction(pAction);
+		if (distance < 5) {				//如果distance过小,直接移动地图不移动Hero
+			heroMoveComplete(pTouch);
+		}
+		else {
+			auto pAction = 
+				CCSequence::create(pHero->GetMoveToActionByDistance(distance, intersectPoint)
+				, CCCallFuncO::create(this, callfuncO_selector(MapLayer::heroMoveComplete), pTouch), NULL);
+			pAction->setTag(PlayerSprite::kWalkActionTag);
+			pHero->runAction(pAction);
+		}
+	}
+	else {
+		auto distance = pHero->getPosition().getDistance(pTouch->getLocation());
+		auto moveby = pHero->GetMoveByActionByDistance(distance, pTouch->getLocation());
+		auto sequence = CCSequence::createWithTwoActions(moveby, CCCallFunc::create(this, callfunc_selector(MapLayer::allMoveComplete)));
+		sequence->setTag(moveby->getTag());
+		pHero->runAction(sequence);
 	}
 
 
@@ -175,9 +204,28 @@ void MapLayer::heroMoveComplete( CCObject* pTouch )
 	auto pMapLayer = GetMapLayer();
 	auto pTouchReal = dynamic_cast<CCTouch*>(pTouch);
 	auto pMove = pHero->GetMoveByActionByDistanceForMap(pHero->getPosition().getDistance(pTouchReal->getLocation()), pTouchReal->getLocation());
-	pMapLayer->runAction(pMove);
+	auto sequence = CCSequence::createWithTwoActions(pMove, CCCallFunc::create(this, callfunc_selector(MapLayer::allMoveComplete)));
+	sequence->setTag(pMove->getTag());
+	pMapLayer->runAction(sequence);
 	pTouchReal->release();
 }
+
+void MapLayer::allMoveComplete()
+{
+	auto pHero = GetHeroSprite();
+	auto pMapLayer = GetMapLayer();
+	auto designSize = CCDirector::sharedDirector()->getOpenGLView()->getDesignResolutionSize();
+	auto screenCenterPoint = ccp(designSize.width / 2, designSize.height / 2);
+	auto screenCenterDistance = pHero->getPosition().getDistance(screenCenterPoint);
+	auto gotoScreenCenter = pHero->GetMoveByActionByDistance(screenCenterDistance, screenCenterPoint);
+	gotoScreenCenter->setDuration(gotoScreenCenter->getDuration() * 3);
+	auto gotoScreenCenterEase = CCEaseSineOut::create(gotoScreenCenter);
+	gotoScreenCenterEase->setTag(kReverseToCenterPointActionTag);
+	pMapLayer->runAction(gotoScreenCenterEase);
+	pHero->runAction(dynamic_cast<CCEaseSineOut*>(gotoScreenCenterEase->copy()));
+}
+
+
 
 void MapLayer::draw()
 {
@@ -266,4 +314,3 @@ void MapLayer::draw()
 	ccDrawLine(line3Point1, line3Point2);
 	ccDrawLine(line4Point1, line4Point2);
 }
-

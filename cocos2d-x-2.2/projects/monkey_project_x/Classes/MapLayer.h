@@ -14,7 +14,7 @@ public:
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
-	virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);	PlayerSprite* GetHeroSprite();	void heroMoveComplete(CCObject* pTouch);	virtual void draw(); 
+	virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);	PlayerSprite* GetHeroSprite();	void heroMoveComplete(CCObject* pTouch);	void allMoveComplete();	virtual void draw(); 
 // 	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
 // 	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
 // 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
@@ -22,7 +22,8 @@ public:
 private:
 	enum {
 		kMapLayerTag,
-		kMyHeroTag
+		kMyHeroTag,
+		kReverseToCenterPointActionTag
 	};
 	CCRect m_heroMoveRect;
 };
