@@ -11,9 +11,10 @@ public:
 	};
 	bool init();
 	CREATE_FUNC(PlayerSprite);
-	CCMoveTo* GetMoveToActionByDistance( float distance, const CCPoint& target);
+	CCMoveTo* GetMoveToAction(const CCPoint& target);
 	CCMoveBy* GetMoveByActionByDistance( float distance, const CCPoint& target);
 	CCMoveBy* GetMoveByActionByDistanceForMap( float distance, const CCPoint& target);
+	float GetSpeed() const;
 private:
 	float m_speed;
 };

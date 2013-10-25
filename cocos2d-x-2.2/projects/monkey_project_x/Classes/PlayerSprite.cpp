@@ -15,9 +15,9 @@ bool PlayerSprite::init()
 	return true;
 }
 
-CCMoveTo* PlayerSprite::GetMoveToActionByDistance( float distance, const CCPoint& target )
+CCMoveTo* PlayerSprite::GetMoveToAction( const CCPoint& target )
 {
-	auto pMoveTo = CCMoveTo::create(distance / m_speed, target);
+	auto pMoveTo = CCMoveTo::create(this->getPosition().getDistance(target)/ m_speed, target);
 	pMoveTo->setTag(kWalkActionTag);
 	return pMoveTo;
 }
@@ -34,4 +34,9 @@ CCMoveBy* PlayerSprite::GetMoveByActionByDistanceForMap( float distance, const C
 	auto pMoveBy = CCMoveBy::create(distance / m_speed, this->getPosition() - target);
 	pMoveBy->setTag(kWalkActionTag);
 	return pMoveBy;
+}
+
+float PlayerSprite::GetSpeed() const
+{
+	return m_speed;
 }
