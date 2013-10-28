@@ -10,7 +10,11 @@ bool MapLayer::SetMapID( int mapid )
 	CCNode* pNode = CCSSceneReader::sharedSceneReader()->createNodeWithSceneFile("RPGGame.json");
 	pNode->setZOrder(-100);
 	pNode->setTag(kMapLayerTag);
+	pNode->setScale(2.0f);
 	this->addChild(pNode);
+	auto designSize = CCDirector::sharedDirector()->getOpenGLView()->getDesignResolutionSize();
+	auto halfScreenSize = CCSizeMake(designSize.width / 2, designSize.height / 2);
+	this->setPosition(halfScreenSize - GetHeroSprite()->getPosition());
 	return true;
 }
 
@@ -26,21 +30,18 @@ bool MapLayer::init()
 	pTouchDispatcher->addTargetedDelegate(this, 0, true);
 	auto pDirector = CCDirector::sharedDirector();
 	auto designSize = pDirector->getOpenGLView()->getDesignResolutionSize();
-	const float heroRectWidth = 300;
-	const float heroRectHeight = heroRectWidth / designSize.width * designSize.height;
-	m_heroMoveRect.setRect((designSize.width - heroRectWidth) / 2, (designSize.height - heroRectHeight) / 2 , heroRectWidth, heroRectHeight);
-	pHero->setPosition(m_heroMoveRect.getMidX(), m_heroMoveRect.getMidY());
+	pHero->setPosition(GetMapWidth() / 2, GetMapHeight() / 2);
 	return true;
 }
 
 int MapLayer::GetMapWidth()
 {
-	return 1024;
+	return 1024 * 2;
 }
 
 int MapLayer::GetMapHeight()
 {
-	return 768;
+	return 768 * 2;
 }
 
 // void MapLayer::ccTouchesBegan( CCSet *pTouches, CCEvent *pEvent )
@@ -78,104 +79,15 @@ void MapLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 	CCLayer::ccTouchEnded(pTouch, pEvent);
 
 	auto pHero = GetHeroSprite();
-	auto pDirector = CCDirector::sharedDirector();
-	auto designSize = pDirector->getOpenGLView()->getDesignResolutionSize();
+
 	pHero->stopActionByTag(PlayerSprite::kWalkActionTag);
 	pHero->stopActionByTag(kReverseToCenterPointActionTag);
-	GetMapLayer()->stopActionByTag(PlayerSprite::kWalkActionTag);
-	GetMapLayer()->stopActionByTag(kReverseToCenterPointActionTag);
-
-// 	CCPoint leftTopPoint = ccp(m_heroMoveRect.getMinX(), m_heroMoveRect.getMaxY());
-// 	CCPoint rightTopPoint = ccp(m_heroMoveRect.getMaxX(), m_heroMoveRect.getMaxY());
-// 	CCPoint leftBottomPoint = ccp(m_heroMoveRect.getMinX(), m_heroMoveRect.getMinY());
-// 	CCPoint rightBottomPoint = ccp(m_heroMoveRect.getMaxX(), m_heroMoveRect.getMinY());
-
-	CCPoint line1Point1 = ccp(0, m_heroMoveRect.getMinY()); //下方的线段
-	CCPoint line1Point2 = ccp(designSize.width, m_heroMoveRect.getMinY());	//下方的线段
-	CCPoint line2Point1 = ccp(0, m_heroMoveRect.getMaxY());			//上方的线段
-	CCPoint line2Point2 = ccp(designSize.width, m_heroMoveRect.getMaxY());	//上方的线段
-	CCPoint line3Point1 = ccp(m_heroMoveRect.getMinX(), 0);			//左方线段
-	CCPoint line3Point2 = ccp(m_heroMoveRect.getMinX(), designSize.height);	//左方线段
-	CCPoint line4Point1 = ccp(m_heroMoveRect.getMaxX(), 0);				//右方线段
-	CCPoint line4Point2 = ccp(m_heroMoveRect.getMaxX(), designSize.height);		//右方线段
-
-
-	bool isIntersect = false;
-	CCPoint intersectPoint;
-	CCPoint heroPosition = pHero->getPosition();
-	CCPoint targetPosition = pTouch->getLocation();
-	
-	if (pHero->getPosition().y > line1Point1.y) {
-		if (ccpSegmentIntersect(line1Point1, line1Point2
-			, heroPosition, targetPosition)) {
-				intersectPoint = ccpIntersectPoint(line1Point1, line1Point2
-					, heroPosition, targetPosition);
-				isIntersect = true;
-				intersectPoint.y += 5;
-		}
-	}
-	if (pHero->getPosition().y <= line2Point1.y) {
-		if (ccpSegmentIntersect(line2Point1, line2Point2
-			, heroPosition, targetPosition)) {
-				auto p = ccpIntersectPoint(line2Point1, line2Point2
-					, heroPosition, targetPosition);
-				if ((intersectPoint.x == CCPointZero.x && intersectPoint.y == CCPointZero.y) 
-					|| (pHero->getPosition().getDistance(p) < pHero->getPosition().getDistance(intersectPoint))) {
-						intersectPoint = p;
-				}
-				isIntersect = true;
-				intersectPoint.y -= 5;
-		}
-	}
-	if (pHero->getPosition().x >= line3Point1.x) {
-		if (ccpSegmentIntersect(line3Point1, line3Point2
-			, heroPosition, targetPosition)) {
-				auto p = ccpIntersectPoint(line3Point1, line3Point2
-					, heroPosition, targetPosition);
-				if ((intersectPoint.x == CCPointZero.x && intersectPoint.y == CCPointZero.y) 
-					|| (pHero->getPosition().getDistance(p) < pHero->getPosition().getDistance(intersectPoint))) {
-						intersectPoint = p;
-				}
-				isIntersect = true;
-				intersectPoint.x += 5;
-		}
-	}
-	if (pHero->getPosition().x < line4Point1.x) {
-		if (ccpSegmentIntersect(line4Point1, line4Point2
-			, heroPosition, targetPosition)) {
-				auto p = ccpIntersectPoint(line4Point1, line4Point2
-					, heroPosition, targetPosition);
-				if ((intersectPoint.x == CCPointZero.x && intersectPoint.y == CCPointZero.y) 
-					|| (pHero->getPosition().getDistance(p) < pHero->getPosition().getDistance(intersectPoint))) {
-						intersectPoint = p;
-				}
-				intersectPoint.x -= 5;
-				isIntersect = true;
-		}
-	}
-	if(isIntersect) {
-		auto distance = pHero->getPosition().getDistance(intersectPoint);
-		pTouch->retain();
-		if (distance < 5) {				//如果distance过小,直接移动地图不移动Hero
-			heroMoveComplete(pTouch);
-		}
-		else {
-			auto pAction = 
-				CCSequence::create(pHero->GetMoveToAction(intersectPoint)
-				, CCCallFuncO::create(this, callfuncO_selector(MapLayer::heroMoveComplete), pTouch), NULL);
-			pAction->setTag(PlayerSprite::kWalkActionTag);
-			pHero->runAction(pAction);
-		}
-	}
-	else {
-		auto distance = pHero->getPosition().getDistance(pTouch->getLocation());
-		auto moveby = pHero->GetMoveByActionByDistance(distance, pTouch->getLocation());
-		auto sequence = CCSequence::createWithTwoActions(moveby, CCCallFunc::create(this, callfunc_selector(MapLayer::allMoveComplete)));
-		sequence->setTag(moveby->getTag());
-		pHero->runAction(sequence);
-	}
-
-
+	auto distance = pHero->getPosition().getDistance(pTouch->getLocation());
+	auto pMoveTo = pHero->GetMoveToAction(this->convertTouchToNodeSpace(pTouch));
+	pMoveTo->setTag(PlayerSprite::kWalkActionTag);
+	pHero->runAction(pMoveTo);
+	auto pFollow = CCFollow::create(pHero, CCRect(0, 0, GetMapWidth(), GetMapHeight()));
+	this->runAction(pFollow);
 
 }
 
@@ -194,158 +106,4 @@ PlayerSprite* MapLayer::GetHeroSprite()
 {
 	auto pHeroSprite = this->getChildByTag(kMyHeroTag);
 	return dynamic_cast<PlayerSprite*>(pHeroSprite);
-}
-
-void MapLayer::heroMoveComplete( CCObject* pTouch )
-{
-	auto designSize = CCDirector::sharedDirector()->getOpenGLView()->getDesignResolutionSize();
-	auto pHero = GetHeroSprite();
-	auto pMapLayer = GetMapLayer();
-	auto pTouchReal = dynamic_cast<CCTouch*>(pTouch);
-	auto movePoint = pHero->getPosition() - pTouchReal->getLocation();
-	auto mapLayerPosition = pMapLayer->getPosition();
-	CCPoint mapTarget = ccpAdd(mapLayerPosition, movePoint);
-	CCPoint heroTarget;
-	bool isEdge = false;
-	if (mapTarget.x > 0 ) {
-		heroTarget.x = pMapLayer->getPositionX() - mapTarget.x;
-		mapTarget.x = 0;
-		isEdge = true;
-	}
-	if (mapTarget.y > 0) {
-		heroTarget.y = pMapLayer->getPositionY() - mapTarget.y;
-		mapTarget.y = 0;
-		isEdge = true;
-	}
-	if (mapTarget.x < -GetMapWidth() + designSize.width) {
-		heroTarget.x = -(pMapLayer->getPositionX() + mapTarget.x + GetMapWidth() - designSize.width);
-		mapTarget.x = -GetMapWidth() + designSize.width;
-		isEdge = true;
-	}
-	if (mapTarget.y < -GetMapHeight() + designSize.height) {
-		heroTarget.y = -(pMapLayer->getPositionY() + mapTarget.y + GetMapHeight() - designSize.height);
-		mapTarget.y = -GetMapHeight() + designSize.height;
-		isEdge = true;
-	}
-	auto pMove = CCMoveTo::create(pMapLayer->getPosition().getDistance(mapTarget) / pHero->GetSpeed(), mapTarget);
-	//auto pMove = pHero->GetMoveByActionByDistance(pHero->getPosition().getDistance(mapTarget), mapTarget);
-	if(isEdge) {
-		pMapLayer->runAction(CCSequence::createWithTwoActions(pMove, CCCallFunc::create(this, callfunc_selector(MapLayer::allMoveComplete))));
-		pHero->runAction(
-			CCSequence::createWithTwoActions(
-			CCDelayTime::create(pMove->getDuration()), 
-			pHero->GetMoveToAction(pHero->getPosition() + heroTarget)));
-	}
-	else {
-		auto sequence = CCSequence::createWithTwoActions(pMove, CCCallFunc::create(this, callfunc_selector(MapLayer::allMoveComplete)));
-		sequence->setTag(pMove->getTag());
-		pMapLayer->runAction(sequence);
-	}
-	pTouchReal->release();
-}
-
-void MapLayer::allMoveComplete()
-{
-	return ;
-	auto pMapLayer = GetMapLayer();
-	auto pHero = GetHeroSprite();
-	auto designSize = CCDirector::sharedDirector()->getOpenGLView()->getDesignResolutionSize();
-	auto screenCenterPoint = ccp(designSize.width / 2, designSize.height / 2);
-	auto screenCenterDistance = pHero->getPosition().getDistance(screenCenterPoint);
-	auto gotoScreenCenter = pHero->GetMoveByActionByDistance(screenCenterDistance, screenCenterPoint);
-	gotoScreenCenter->setDuration(gotoScreenCenter->getDuration() * 3);
-	auto gotoScreenCenterEase = CCEaseSineOut::create(gotoScreenCenter);
-	gotoScreenCenterEase->setTag(kReverseToCenterPointActionTag);
-	pMapLayer->runAction(gotoScreenCenterEase);
-	pHero->runAction(dynamic_cast<CCEaseSineOut*>(gotoScreenCenterEase->copy()));
-}
-
-
-
-void MapLayer::draw()
-{
-// 
-// 	//检测是否有OpenGL错误发生，如果有则打印错误  
-// 	CHECK_GL_ERROR_DEBUG();  
-// 
-// 	//设置点的大小  
-// 	ccPointSize(64);  
-// 	//设置后面要进行绘制时所用的色彩  
-// 	ccDrawColor4B(0,0,255,128);  
-// 	//绘制一个点  
-// 	ccDrawPoint( ccp(s.width / 2, s.height / 2) );  
-// 	//检测是否有OpenGL错误发生，如果有则打印错误  
-// 	CHECK_GL_ERROR_DEBUG();  
-// 
-// 	// 绘制四个点  
-// 	//这里创建位置点数组  
-// 	CCPoint points[] = { ccp(60,60), ccp(70,70), ccp(60,70), ccp(70,60) };  
-// 	ccPointSize(4);  
-// 	//设置后面要进行绘制时所用的色彩  
-// 	ccDrawColor4B(0,255,255,255);  
-// 	//使用位置点数组做为四个顶点的位置进行绘制  
-// 	ccDrawPoints( points, 4);  
-// 	//检测是否有OpenGL错误发生，如果有则打印错误  
-// 	CHECK_GL_ERROR_DEBUG();  
-// 
-// 	//绘制一个绿色圆  
-// 	glLineWidth(16);  
-// 	//设置后面要进行绘制时所用的色彩  
-// 	ccDrawColor4B(0, 255, 0, 255);  
-// 	//绘制圆函数，参1是中心点，参2为半径,参3为圆的逆时针旋转角度，参4为圆的平均切分段数，最后一个参数是指定是否从圆分段起止点位置向圆中心连线，这里不进行连线  
-// 	ccDrawCircle( ccp(s.width/2,  s.height/2), 100, 0, 10, false);  
-// 	//检测是否有OpenGL错误发生，如果有则打印错误  
-// 	CHECK_GL_ERROR_DEBUG();  
-// 
-// 	//绘制一个蓝色圆,进行连线  
-// 	glLineWidth(2);  
-// 	//设置后面要进行绘制时所用的色彩  
-// 	ccDrawColor4B(0, 255, 255, 255);  
-// 	//这里使用了一个宏CC_DEGREES_TO_RADIANS把角度值转为弧度。转动了90度，目的是为了让中心连线垂直显示。  
-// 	ccDrawCircle( ccp(s.width/2, s.height/2), 50, CC_DEGREES_TO_RADIANS(90), 50, true);  
-// 	//继续检错  
-// 	CHECK_GL_ERROR_DEBUG();  
-// 
-// 	// 绘制多边形线框。  
-// 	ccDrawColor4B(255, 255, 0, 255);  
-// 	glLineWidth(10);  
-// 	CCPoint vertices[] = { ccp(0,0), ccp(50,50), ccp(100,50), ccp(100,100), ccp(50,100) };  
-// 	//这里绘制多边形线框函数，使用上面的顶点数组做为多边形线框的顶点位置，第二个参数为顶点数量，第三个参数指定是否首尾自动连接形成封闭线框。  
-// 	//注：其实这个函数拆成两个函数比较好,一个是去掉最后一个参数的ccDrawPoly，用于绘制默认封闭的多边形线框。另一个ccDrawLineList用于绘制线段列。  
-// 	ccDrawPoly( vertices, 5, false);  
-// 	//继续检错  
-// 	CHECK_GL_ERROR_DEBUG();  
-// 
-// 	//绘制实体多边形  
-// 	glLineWidth(1);  
-// 	CCPoint filledVertices[] = { ccp(0,120), ccp(50,120), ccp(50,170), ccp(25,200), ccp(0,170) };  
-// 	//这里绘制内部填充指定色彩的多边形  
-// 	ccDrawSolidPoly(filledVertices, 5, ccc4f(0.5f, 0.5f, 1, 1 ) );  
-// 
-// 	// 绘制封闭多边形线框，这里就是个三角形线框了。  
-// 	ccDrawColor4B(255, 0, 255, 255);  
-// 	glLineWidth(2);  
-// 	CCPoint vertices2[] = { ccp(30,130), ccp(30,230), ccp(50,200) };  
-// 	ccDrawPoly( vertices2, 3, true);  
-// 
-// 	CHECK_GL_ERROR_DEBUG();  
-	auto pDirector = CCDirector::sharedDirector();
-	auto designSize = pDirector->getOpenGLView()->getDesignResolutionSize();
-	CCPoint line1Point1 = ccp(0, m_heroMoveRect.getMinY());
-	CCPoint line1Point2 = ccp(designSize.width, m_heroMoveRect.getMinY());
-	CCPoint line2Point1 = ccp(0, m_heroMoveRect.getMaxY());
-	CCPoint line2Point2 = ccp(designSize.width, m_heroMoveRect.getMaxY());
-	CCPoint line3Point1 = ccp(m_heroMoveRect.getMinX(), 0);
-	CCPoint line3Point2 = ccp(m_heroMoveRect.getMinX(), designSize.height);
-	CCPoint line4Point1 = ccp(m_heroMoveRect.getMaxX(), 0);
-	CCPoint line4Point2 = ccp(m_heroMoveRect.getMaxX(), designSize.height);
-
-	//设置线宽
-	glLineWidth( 5.0f );  
-	//设置后面要进行绘制时所用的色彩  
-	ccDrawColor4B(255,0,0,255);
-	ccDrawLine(line1Point1, line1Point2);
-	ccDrawLine(line2Point1, line2Point2);
-	ccDrawLine(line3Point1, line3Point2);
-	ccDrawLine(line4Point1, line4Point2);
 }
