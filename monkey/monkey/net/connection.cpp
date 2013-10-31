@@ -148,7 +148,7 @@ void monkey::net::connection::close()
 
 connection::~connection( void )
 {
-	lock_.destroy();
+	//lock_.destroy(); //没必要调用destroy,mutex析构函数会自行调用,并且pthread平台的mutex没有destroy函数
 }
 
 void connection::handle_connected( const boost::system::error_code& e )

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 namespace monkey {
 namespace net{
 
@@ -6,7 +7,7 @@ class package
 {
 public:
 	package() : buffer_(nullptr){}
-	package(size_t size)
+	package(std::size_t size)
 	:buffer_(new unsigned char[size])
 	, size_(size) {
 
@@ -16,7 +17,7 @@ public:
 			delete[] buffer_;
 		}
 	}
-	size_t size() const {
+	std::size_t size() const {
 		return size_;
 	}
 
@@ -26,7 +27,7 @@ public:
 
 private:
 	unsigned char* buffer_;
-	size_t size_;
+	std::size_t size_;
 };
 
 };};
