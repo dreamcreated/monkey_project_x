@@ -1,5 +1,10 @@
 #include "MapLayer.h"
 #include "cocos-ext.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
+#include <common/messages/scene_messages.pb.h>
+#include "ClientUserData.h"
+#include "game_network.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -82,13 +87,8 @@ void MapLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 
 	pHero->stopActionByTag(PlayerSprite::kWalkActionTag);
 	pHero->stopActionByTag(kReverseToCenterPointActionTag);
-	auto distance = pHero->getPosition().getDistance(pTouch->getLocation());
 	auto des = this->convertTouchToNodeSpace(pTouch);
-	auto pMoveTo = pHero->GetMoveToAction(des);
-	pMoveTo->setTag(PlayerSprite::kWalkActionTag);
-	pHero->runAction(pMoveTo);
-	auto pFollow = CCFollow::create(pHero, CCRect(0, 0, GetMapWidth(), GetMapHeight()));
-	this->runAction(pFollow);
+	HeroGotoDes(des);
 }
 
 void MapLayer::ccTouchCancelled( CCTouch *pTouch, CCEvent *pEvent )
@@ -106,4 +106,19 @@ PlayerSprite* MapLayer::GetHeroSprite()
 {
 	auto pHeroSprite = this->getChildByTag(kMyHeroTag);
 	return dynamic_cast<PlayerSprite*>(pHeroSprite);
+}
+
+void MapLayer::HeroGotoDes( const CCPoint& des )
+{
+	auto pHero = GetHeroSprite();
+	auto pMoveTo = pHero->GetMoveToAction(des);
+	pMoveTo->setTag(PlayerSprite::kWalkActionTag);
+	pHero->runAction(pMoveTo);
+	auto pFollow = CCFollow::create(pHero, CCRect(0, 0, GetMapWidth(), GetMapHeight()));
+	this->runAction(pFollow);
+	auto pSceneMove = boost::make_shared<common::scene_move>();
+	pSceneMove->set_player_id(ClientUserData::get_instance()->Player_id());
+	pSceneMove->set_target_x(des.x);
+	pSceneMove->set_target_y(des.y);
+	game_network::get_instance()->send_message(SESSIONS::GAME_SESSION, pSceneMove);
 }
