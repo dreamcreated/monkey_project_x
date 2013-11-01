@@ -83,12 +83,12 @@ void MapLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 	pHero->stopActionByTag(PlayerSprite::kWalkActionTag);
 	pHero->stopActionByTag(kReverseToCenterPointActionTag);
 	auto distance = pHero->getPosition().getDistance(pTouch->getLocation());
-	auto pMoveTo = pHero->GetMoveToAction(this->convertTouchToNodeSpace(pTouch));
+	auto des = this->convertTouchToNodeSpace(pTouch);
+	auto pMoveTo = pHero->GetMoveToAction(des);
 	pMoveTo->setTag(PlayerSprite::kWalkActionTag);
 	pHero->runAction(pMoveTo);
 	auto pFollow = CCFollow::create(pHero, CCRect(0, 0, GetMapWidth(), GetMapHeight()));
 	this->runAction(pFollow);
-
 }
 
 void MapLayer::ccTouchCancelled( CCTouch *pTouch, CCEvent *pEvent )

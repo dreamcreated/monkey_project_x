@@ -31,6 +31,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	pDirector->setOpenGLView(pEGLView);
 	//TODO 设置SD版本和HD版本的资源搜索路径用以下函数:
 	//CCFileUtils::sharedFileUtils()->setSearchPaths()
+	vector<string> pathes;
+	pathes.push_back("../Resources");
+	CCFileUtils::sharedFileUtils()->setSearchPaths(pathes);
 	pEGLView->setFrameSize(960, 640);
 	pEGLView->setDesignResolutionSize(APP_WIDTH, APP_HEIGHT, kResolutionExactFit);
 	
