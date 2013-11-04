@@ -40,3 +40,20 @@ float PlayerSprite::GetSpeed() const
 {
 	return m_speed;
 }
+
+int PlayerSprite::GetTagByPlayerID() const
+{
+	return GetTagByPlayerID(m_player_info.player_id());
+}
+
+int PlayerSprite::GetTagByPlayerID( int playerid )
+{
+	return playerid + 100;
+}
+
+void PlayerSprite::SetPlayerInfo( const ::common::player_info& info )
+{
+	this->setPosition(ccp(info.player_position().x(), info.player_position().y()));
+	m_player_info = info;
+	this->setTag(GetTagByPlayerID());
+}

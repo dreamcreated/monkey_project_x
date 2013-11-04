@@ -33,10 +33,105 @@ void  protobuf_AddDesc_scene_5fmessages_2eproto();
 void protobuf_AssignDesc_scene_5fmessages_2eproto();
 void protobuf_ShutdownFile_scene_5fmessages_2eproto();
 
+class position;
 class scene_enter;
 class scene_move;
+class player_info;
+class player_list;
 
 // ===================================================================
+
+class position : public ::google::protobuf::Message {
+ public:
+  position();
+  virtual ~position();
+
+  position(const position& from);
+
+  inline position& operator=(const position& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const position& default_instance();
+
+  void Swap(position* other);
+
+  // implements Message ----------------------------------------------
+
+  position* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const position& from);
+  void MergeFrom(const position& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 x = 1;
+  inline bool has_x() const;
+  inline void clear_x();
+  static const int kXFieldNumber = 1;
+  inline ::google::protobuf::int32 x() const;
+  inline void set_x(::google::protobuf::int32 value);
+
+  // required int32 y = 2;
+  inline bool has_y() const;
+  inline void clear_y();
+  static const int kYFieldNumber = 2;
+  inline ::google::protobuf::int32 y() const;
+  inline void set_y(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:common.position)
+ private:
+  inline void set_has_x();
+  inline void clear_has_x();
+  inline void set_has_y();
+  inline void clear_has_y();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::int32 x_;
+  ::google::protobuf::int32 y_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  friend void  protobuf_AddDesc_scene_5fmessages_2eproto();
+  friend void protobuf_AssignDesc_scene_5fmessages_2eproto();
+  friend void protobuf_ShutdownFile_scene_5fmessages_2eproto();
+
+  void InitAsDefaultInstance();
+  static position* default_instance_;
+};
+// -------------------------------------------------------------------
 
 class scene_enter : public ::google::protobuf::Message {
  public:
@@ -99,24 +194,26 @@ class scene_enter : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 scene_id() const;
   inline void set_scene_id(::google::protobuf::int32 value);
 
-  // optional int32 player_id = 2;
-  inline bool has_player_id() const;
-  inline void clear_player_id();
-  static const int kPlayerIdFieldNumber = 2;
-  inline ::google::protobuf::int32 player_id() const;
-  inline void set_player_id(::google::protobuf::int32 value);
+  // optional .common.player_info player_info = 2;
+  inline bool has_player_info() const;
+  inline void clear_player_info();
+  static const int kPlayerInfoFieldNumber = 2;
+  inline const ::common::player_info& player_info() const;
+  inline ::common::player_info* mutable_player_info();
+  inline ::common::player_info* release_player_info();
+  inline void set_allocated_player_info(::common::player_info* player_info);
 
   // @@protoc_insertion_point(class_scope:common.scene_enter)
  private:
   inline void set_has_scene_id();
   inline void clear_has_scene_id();
-  inline void set_has_player_id();
-  inline void clear_has_player_id();
+  inline void set_has_player_info();
+  inline void clear_has_player_info();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
+  ::common::player_info* player_info_;
   ::google::protobuf::int32 scene_id_;
-  ::google::protobuf::int32 player_id_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
@@ -230,10 +327,237 @@ class scene_move : public ::google::protobuf::Message {
   void InitAsDefaultInstance();
   static scene_move* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class player_info : public ::google::protobuf::Message {
+ public:
+  player_info();
+  virtual ~player_info();
+
+  player_info(const player_info& from);
+
+  inline player_info& operator=(const player_info& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const player_info& default_instance();
+
+  void Swap(player_info* other);
+
+  // implements Message ----------------------------------------------
+
+  player_info* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const player_info& from);
+  void MergeFrom(const player_info& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 player_id = 1;
+  inline bool has_player_id() const;
+  inline void clear_player_id();
+  static const int kPlayerIdFieldNumber = 1;
+  inline ::google::protobuf::int32 player_id() const;
+  inline void set_player_id(::google::protobuf::int32 value);
+
+  // required .common.position player_position = 2;
+  inline bool has_player_position() const;
+  inline void clear_player_position();
+  static const int kPlayerPositionFieldNumber = 2;
+  inline const ::common::position& player_position() const;
+  inline ::common::position* mutable_player_position();
+  inline ::common::position* release_player_position();
+  inline void set_allocated_player_position(::common::position* player_position);
+
+  // @@protoc_insertion_point(class_scope:common.player_info)
+ private:
+  inline void set_has_player_id();
+  inline void clear_has_player_id();
+  inline void set_has_player_position();
+  inline void clear_has_player_position();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::common::position* player_position_;
+  ::google::protobuf::int32 player_id_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  friend void  protobuf_AddDesc_scene_5fmessages_2eproto();
+  friend void protobuf_AssignDesc_scene_5fmessages_2eproto();
+  friend void protobuf_ShutdownFile_scene_5fmessages_2eproto();
+
+  void InitAsDefaultInstance();
+  static player_info* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class player_list : public ::google::protobuf::Message {
+ public:
+  player_list();
+  virtual ~player_list();
+
+  player_list(const player_list& from);
+
+  inline player_list& operator=(const player_list& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const player_list& default_instance();
+
+  void Swap(player_list* other);
+
+  // implements Message ----------------------------------------------
+
+  player_list* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const player_list& from);
+  void MergeFrom(const player_list& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .common.player_info players = 1;
+  inline int players_size() const;
+  inline void clear_players();
+  static const int kPlayersFieldNumber = 1;
+  inline const ::common::player_info& players(int index) const;
+  inline ::common::player_info* mutable_players(int index);
+  inline ::common::player_info* add_players();
+  inline const ::google::protobuf::RepeatedPtrField< ::common::player_info >&
+      players() const;
+  inline ::google::protobuf::RepeatedPtrField< ::common::player_info >*
+      mutable_players();
+
+  // @@protoc_insertion_point(class_scope:common.player_list)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::RepeatedPtrField< ::common::player_info > players_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  friend void  protobuf_AddDesc_scene_5fmessages_2eproto();
+  friend void protobuf_AssignDesc_scene_5fmessages_2eproto();
+  friend void protobuf_ShutdownFile_scene_5fmessages_2eproto();
+
+  void InitAsDefaultInstance();
+  static player_list* default_instance_;
+};
 // ===================================================================
 
 
 // ===================================================================
+
+// position
+
+// required int32 x = 1;
+inline bool position::has_x() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void position::set_has_x() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void position::clear_has_x() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void position::clear_x() {
+  x_ = 0;
+  clear_has_x();
+}
+inline ::google::protobuf::int32 position::x() const {
+  return x_;
+}
+inline void position::set_x(::google::protobuf::int32 value) {
+  set_has_x();
+  x_ = value;
+}
+
+// required int32 y = 2;
+inline bool position::has_y() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void position::set_has_y() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void position::clear_has_y() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void position::clear_y() {
+  y_ = 0;
+  clear_has_y();
+}
+inline ::google::protobuf::int32 position::y() const {
+  return y_;
+}
+inline void position::set_y(::google::protobuf::int32 value) {
+  set_has_y();
+  y_ = value;
+}
+
+// -------------------------------------------------------------------
 
 // scene_enter
 
@@ -259,26 +583,42 @@ inline void scene_enter::set_scene_id(::google::protobuf::int32 value) {
   scene_id_ = value;
 }
 
-// optional int32 player_id = 2;
-inline bool scene_enter::has_player_id() const {
+// optional .common.player_info player_info = 2;
+inline bool scene_enter::has_player_info() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void scene_enter::set_has_player_id() {
+inline void scene_enter::set_has_player_info() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void scene_enter::clear_has_player_id() {
+inline void scene_enter::clear_has_player_info() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void scene_enter::clear_player_id() {
-  player_id_ = 0;
-  clear_has_player_id();
+inline void scene_enter::clear_player_info() {
+  if (player_info_ != NULL) player_info_->::common::player_info::Clear();
+  clear_has_player_info();
 }
-inline ::google::protobuf::int32 scene_enter::player_id() const {
-  return player_id_;
+inline const ::common::player_info& scene_enter::player_info() const {
+  return player_info_ != NULL ? *player_info_ : *default_instance_->player_info_;
 }
-inline void scene_enter::set_player_id(::google::protobuf::int32 value) {
-  set_has_player_id();
-  player_id_ = value;
+inline ::common::player_info* scene_enter::mutable_player_info() {
+  set_has_player_info();
+  if (player_info_ == NULL) player_info_ = new ::common::player_info;
+  return player_info_;
+}
+inline ::common::player_info* scene_enter::release_player_info() {
+  clear_has_player_info();
+  ::common::player_info* temp = player_info_;
+  player_info_ = NULL;
+  return temp;
+}
+inline void scene_enter::set_allocated_player_info(::common::player_info* player_info) {
+  delete player_info_;
+  player_info_ = player_info;
+  if (player_info) {
+    set_has_player_info();
+  } else {
+    clear_has_player_info();
+  }
 }
 
 // -------------------------------------------------------------------
@@ -349,6 +689,99 @@ inline ::google::protobuf::int32 scene_move::target_y() const {
 inline void scene_move::set_target_y(::google::protobuf::int32 value) {
   set_has_target_y();
   target_y_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// player_info
+
+// required int32 player_id = 1;
+inline bool player_info::has_player_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void player_info::set_has_player_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void player_info::clear_has_player_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void player_info::clear_player_id() {
+  player_id_ = 0;
+  clear_has_player_id();
+}
+inline ::google::protobuf::int32 player_info::player_id() const {
+  return player_id_;
+}
+inline void player_info::set_player_id(::google::protobuf::int32 value) {
+  set_has_player_id();
+  player_id_ = value;
+}
+
+// required .common.position player_position = 2;
+inline bool player_info::has_player_position() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void player_info::set_has_player_position() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void player_info::clear_has_player_position() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void player_info::clear_player_position() {
+  if (player_position_ != NULL) player_position_->::common::position::Clear();
+  clear_has_player_position();
+}
+inline const ::common::position& player_info::player_position() const {
+  return player_position_ != NULL ? *player_position_ : *default_instance_->player_position_;
+}
+inline ::common::position* player_info::mutable_player_position() {
+  set_has_player_position();
+  if (player_position_ == NULL) player_position_ = new ::common::position;
+  return player_position_;
+}
+inline ::common::position* player_info::release_player_position() {
+  clear_has_player_position();
+  ::common::position* temp = player_position_;
+  player_position_ = NULL;
+  return temp;
+}
+inline void player_info::set_allocated_player_position(::common::position* player_position) {
+  delete player_position_;
+  player_position_ = player_position;
+  if (player_position) {
+    set_has_player_position();
+  } else {
+    clear_has_player_position();
+  }
+}
+
+// -------------------------------------------------------------------
+
+// player_list
+
+// repeated .common.player_info players = 1;
+inline int player_list::players_size() const {
+  return players_.size();
+}
+inline void player_list::clear_players() {
+  players_.Clear();
+}
+inline const ::common::player_info& player_list::players(int index) const {
+  return players_.Get(index);
+}
+inline ::common::player_info* player_list::mutable_players(int index) {
+  return players_.Mutable(index);
+}
+inline ::common::player_info* player_list::add_players() {
+  return players_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::common::player_info >&
+player_list::players() const {
+  return players_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::common::player_info >*
+player_list::mutable_players() {
+  return &players_;
 }
 
 

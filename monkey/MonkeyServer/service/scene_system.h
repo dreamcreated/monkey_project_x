@@ -3,6 +3,8 @@
 #include <monkey/utils/singleton.hpp>
 #include <common/messages/Login.pb.h>
 #include <common/messages/scene_messages.pb.h>
+#include <map>
+#include <set>
 
 class scene_system
 	: public monkey::service::system_service
@@ -19,6 +21,8 @@ public:
 	virtual void on_user_leave(boost::shared_ptr<monkey::net::session> client_context);
 	virtual bool init();
 	virtual void fint();
-
+private:
+	//第一个int表示sceneID, 第二个int是playerid
+	std::map<int, std::set<int>> m_scene_player;
 };
 

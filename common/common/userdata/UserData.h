@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "../messages/scene_messages.pb.h"
 namespace common {
 class UserData
 {
@@ -16,11 +17,13 @@ public:
 	void Scene_id(int val) { m_scene_id = val; }
 	unsigned int Player_id() const { return m_player_id; }
 	void Player_id(unsigned int val) { m_player_id = val; }
+	common::player_info& Player_info() { return player_info; }
 private:
 	std::string m_user_name;
 	unsigned int m_player_id;
 	int m_scene_id;
 	int m_pos_x;
 	int m_pos_y;
+	common::player_info player_info;
 };
 };

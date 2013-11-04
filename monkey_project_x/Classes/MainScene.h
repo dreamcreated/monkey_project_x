@@ -3,14 +3,21 @@
 #include "cocos2d.h"
 #include "MapLayer.h"
 
+USING_NS_CC;
+
 class MainScene : public cocos2d::CCScene {
 public:
 	MainScene();
 	bool init();
 	bool ChangeMap(int mapid);
 	CREATE_FUNC(MainScene);
+	CCNode* GetMapLayer();
 private:
 	MapLayer* m_map_layer;
+
+	enum {
+		kMapLayerTag
+	};
 };
 
 

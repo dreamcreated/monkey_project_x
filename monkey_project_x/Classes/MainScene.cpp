@@ -15,6 +15,7 @@ bool MainScene::ChangeMap( int mapid )
 	}
 	m_map_layer = MapLayer::create();
 	m_map_layer->SetMapID(mapid);
+	m_map_layer->setTag(kMapLayerTag);
 	this->addChild(m_map_layer);
 	return true;
 }
@@ -23,4 +24,9 @@ MainScene::MainScene()
 	: m_map_layer(NULL)
 {
 
+}
+
+CCNode* MainScene::GetMapLayer()
+{
+	return this->getChildByTag(kMapLayerTag);
 }

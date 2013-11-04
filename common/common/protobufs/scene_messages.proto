@@ -1,12 +1,27 @@
 package common;
 
+
+message position {
+	required int32 x = 1;
+	required int32 y = 2;
+}
+
 message scene_enter {
 	required int32 scene_id = 1;
-	optional int32 player_id = 2;
+	optional player_info player_info = 2;
 }
 
 message scene_move {
 	optional int32 player_id = 1;
 	required int32 target_x = 2;
 	required int32 target_y = 3;
+}
+
+message player_info {
+	required int32 player_id = 1;
+	required position player_position = 2;
+}
+
+message player_list {
+	repeated player_info players = 1;
 }

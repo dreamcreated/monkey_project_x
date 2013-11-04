@@ -116,9 +116,25 @@ void MapLayer::HeroGotoDes( const CCPoint& des )
 	pHero->runAction(pMoveTo);
 	auto pFollow = CCFollow::create(pHero, CCRect(0, 0, GetMapWidth(), GetMapHeight()));
 	this->runAction(pFollow);
+
 	auto pSceneMove = boost::make_shared<common::scene_move>();
 	pSceneMove->set_player_id(ClientUserData::get_instance()->Player_id());
 	pSceneMove->set_target_x(des.x);
 	pSceneMove->set_target_y(des.y);
 	game_network::get_instance()->send_message(SESSIONS::GAME_SESSION, pSceneMove);
+}
+
+void MapLayer::GotoDesForSpecifiedPlayerID( int player_id, const CCPoint& des )
+{
+	auto pPlayerSprite = dynamic_cast<PlayerSprite*>(this->getChildByTag(PlayerSprite::GetTagByPlayerID(player_id)));
+	CCAssert(pPlayerSprite, "player_id not found in this maplayer");
+	_SpriteGotoDes(pPlayerSprite, des);
+}
+
+void MapLayer::_SpriteGotoDes( PlayerSprite* sprite, const CCPoint& des )
+{
+	sprite->stopActionByTag(PlayerSprite::kWalkActionTag);
+	auto pMoveTo = sprite->GetMoveToAction(des);
+	pMoveTo->setTag(PlayerSprite::kWalkActionTag);
+	sprite->runAction(pMoveTo);
 }
