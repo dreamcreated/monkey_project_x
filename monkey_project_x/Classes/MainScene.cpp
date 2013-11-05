@@ -26,7 +26,7 @@ MainScene::MainScene()
 
 }
 
-CCNode* MainScene::GetMapLayer()
+MapLayer* MainScene::GetMapLayer()
 {
-	return this->getChildByTag(kMapLayerTag);
+	return dynamic_cast<MapLayer*>(this->getChildByTag(kMapLayerTag));
 }

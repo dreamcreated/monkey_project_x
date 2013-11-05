@@ -11,7 +11,7 @@ public:
 	bool init();
 	bool ChangeMap(int mapid);
 	CREATE_FUNC(MainScene);
-	CCNode* GetMapLayer();
+	MapLayer* GetMapLayer();
 private:
 	MapLayer* m_map_layer;
 

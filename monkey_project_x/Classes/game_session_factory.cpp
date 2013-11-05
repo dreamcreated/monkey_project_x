@@ -20,6 +20,9 @@ bool game_session_factory::verify_connection( boost::shared_ptr<monkey::net::con
 	if (p_login_return) {
 		if (p_login_return->login_successed()) {
 			ClientUserData::get_instance()->Player_id(p_login_return->player_id());
+			boost::shared_ptr<common::scene_enter> pSceneEnter(new common::scene_enter);
+			pSceneEnter->set_scene_id(1);
+			conn->send_protobuf(pSceneEnter);
 		}
 		return p_login_return->login_successed();
 	}
@@ -33,7 +36,8 @@ void game_session_factory::on_verify_failed( boost::shared_ptr<google::protobuf:
 
 std::string game_session_factory::on_verify_successed( boost::shared_ptr<monkey::net::session> pSession, boost::shared_ptr<google::protobuf::Message> message ) const
 {
-	return boost::lexical_cast<std::string>(SESSION_TYPE::GAME_SESSION);
+	game_network::get_instance()->register_session(SESSIONS::GAME_SESSION, pSession);
+	return SESSIONS::GAME_SESSION;
 }
 
 boost::shared_ptr<monkey::net::session> game_session_factory::new_session( boost::shared_ptr<google::protobuf::Message> message ) const

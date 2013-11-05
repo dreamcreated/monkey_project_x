@@ -55,4 +55,10 @@ void network::join()
 	message_queue::get_instance()->async_stop();
 }
 
+bool network::register_session( const std::string& session_name, boost::shared_ptr<monkey::net::session> session )
+{
+	auto ret = sessions_map_.insert(std::make_pair(session_name, session));
+	return ret.second;
+}
+
 

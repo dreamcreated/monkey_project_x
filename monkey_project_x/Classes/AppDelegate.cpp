@@ -33,6 +33,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	//CCFileUtils::sharedFileUtils()->setSearchPaths()
 	vector<string> pathes;
 	pathes.push_back("../Resources");
+	pathes.push_back("../../Resources");
 	CCFileUtils::sharedFileUtils()->setSearchPaths(pathes);
 	pEGLView->setFrameSize(960, 640);
 	pEGLView->setDesignResolutionSize(APP_WIDTH, APP_HEIGHT, kResolutionExactFit);
@@ -54,10 +55,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 
     // run
-    //pDirector->runWithScene(LoadingScene::scene());
-	auto pMainScene = MainScene::create();
-	pMainScene->ChangeMap(1);
-	pDirector->runWithScene(pMainScene);
+    pDirector->runWithScene(LoadingScene::scene());
+
+// 	auto pMainScene = MainScene::create();
+// 	pMainScene->ChangeMap(1);
+// 	pDirector->runWithScene(pMainScene);
 
     return true;
 }

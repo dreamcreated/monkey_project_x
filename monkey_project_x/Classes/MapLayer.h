@@ -16,6 +16,7 @@ public:
 	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);	PlayerSprite* GetHeroSprite();	void HeroGotoDes( const CCPoint& des );
 	void GotoDesForSpecifiedPlayerID(int player_id, const CCPoint& des);
+	void ReloadPlayers();
 private:
 	enum {
 		kMapLayerTag,
@@ -23,6 +24,7 @@ private:
 		kReverseToCenterPointActionTag
 	};
 	void _SpriteGotoDes(PlayerSprite* sprite, const CCPoint& des);
+	void ClearPlayers();
 };
 
 #endif

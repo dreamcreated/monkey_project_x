@@ -77,22 +77,39 @@ void scene_system::on_user_leave( boost::shared_ptr<monkey::net::session> client
 
 void scene_system::on_player_list( boost::shared_ptr<monkey::net::session> pSession, boost::shared_ptr<common::player_list> msg )
 {
+	auto pThis = scene_system::get_instance();
+	pThis->clear();
+	for(auto i = 0; i < msg->players_size(); ++i) {
+		auto& playerInfo = msg->players(i);
+		auto ret = pThis->register_player(playerInfo.player_id(), boost::shared_ptr<common::player_info>(new common::player_info(playerInfo)));
+		assert(ret);
+	}
+
 	auto pMainScene = dynamic_cast<MainScene*>(CCDirector::sharedDirector()->getRunningScene());
 	if(pMainScene) {
 		auto pMapLayer = pMainScene->GetMapLayer();
-		for(auto i = 0; i < msg->players_size(); ++i) {
-			auto& playerInfo = msg->players(i);
-			if (pMapLayer) {
-				auto pCurrentSprite = dynamic_cast<PlayerSprite*>(pMapLayer->getChildByTag(PlayerSprite::GetTagByPlayerID(playerInfo.player_id())));
-				if (pCurrentSprite) {
-					pCurrentSprite->SetPlayerInfo(playerInfo);
-				}
-				else {
-					auto pPlayerSprite = PlayerSprite::create();
-					pPlayerSprite->SetPlayerInfo(playerInfo);
-					pMapLayer->addChild(pPlayerSprite);
-				}
-			}
-		}
+		pMapLayer->ReloadPlayers();
 	}
+}
+
+bool scene_system::register_player( int player_id, const boost::shared_ptr<common::player_info> player_info )
+{
+	auto ret = m_players.insert(std::make_pair(player_id, player_info));
+	return ret.second;
+}
+
+bool scene_system::unregister_player( int player_id )
+{
+	auto ret = m_players.erase(player_id);
+	return ret == 1;
+}
+
+void scene_system::clear()
+{
+	m_players.clear();
+}
+
+const players_map_type& scene_system::get_players() const
+{
+	return m_players;
 }

@@ -79,7 +79,7 @@
     <Link>
       <AdditionalDependencies>libExtensions.lib;libcocos2d.lib;libCocosDenshion.lib;opengl32.lib;glew32.lib;libBox2d.lib;libchipmunk.lib;libcurl_imp.lib;pthreadVCE2.lib;websockets.lib;monkey.lib;monkey_client.lib;libprotobuf.lib;common.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);$(MONKEY_HOME)\$(Configuration);$(PROTOBUF_HOME)\lib\$(Configuration);$(MONKEY_CLIENT_HOME)\$(Configuration);$(BOOST_HOME)\bin\vc11\lib;$(PROTOBUF_HOME)\lib;$(MONKEY_COMMON)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\libs\$(Configuration);$(PROTOBUF_HOME)\lib\$(Configuration);$(BOOST_HOME)\bin\vc11\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -110,7 +110,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\cocos2d-x-2.2\external\libwebsockets\win32\li
     <Link>
       <AdditionalDependencies>libExtensions.lib;libcocos2d.lib;libCocosDenshion.lib;opengl32.lib;glew32.lib;libBox2d.lib;libchipmunk.lib;libcurl_imp.lib;pthreadVCE2.lib;websockets.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);$(MONKEY_HOME)\$(Configuration);$(PROTOBUF_HOME)\lib\$(Configuration);$(MONKEY_CLIENT_HOME)\$(Configuration);$(BOOST_HOME)\bin\vc11\lib;$(PROTOBUF_HOME)\lib;$(MONKEY_COMMON)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\libs\$(Configuration);$(PROTOBUF_HOME)\lib\$(Configuration);$(BOOST_HOME)\bin\vc11\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>

@@ -5,6 +5,7 @@
 #include <common/messages/scene_messages.pb.h>
 #include "ClientUserData.h"
 #include "game_network.h"
+#include "scene_system.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -36,6 +37,8 @@ bool MapLayer::init()
 	auto pDirector = CCDirector::sharedDirector();
 	auto designSize = pDirector->getOpenGLView()->getDesignResolutionSize();
 	pHero->setPosition(GetMapWidth() / 2, GetMapHeight() / 2);
+
+	ReloadPlayers();
 	return true;
 }
 
@@ -117,7 +120,7 @@ void MapLayer::HeroGotoDes( const CCPoint& des )
 	auto pFollow = CCFollow::create(pHero, CCRect(0, 0, GetMapWidth(), GetMapHeight()));
 	this->runAction(pFollow);
 
-	auto pSceneMove = boost::make_shared<common::scene_move>();
+	boost::shared_ptr<common::scene_move> pSceneMove(new common::scene_move);// = boost::make_shared<common::scene_move>();
 	pSceneMove->set_player_id(ClientUserData::get_instance()->Player_id());
 	pSceneMove->set_target_x(des.x);
 	pSceneMove->set_target_y(des.y);
@@ -137,4 +140,34 @@ void MapLayer::_SpriteGotoDes( PlayerSprite* sprite, const CCPoint& des )
 	auto pMoveTo = sprite->GetMoveToAction(des);
 	pMoveTo->setTag(PlayerSprite::kWalkActionTag);
 	sprite->runAction(pMoveTo);
+}
+
+void MapLayer::ReloadPlayers()
+{
+	ClearPlayers();
+
+	//TODO 缺少一个是否在当前显示范围内的判断(当前屏幕在地图的RECT和每个角色判断相交,相交就加进去显示不相交就不管)
+
+	auto &players = scene_system::get_instance()->get_players();
+	for(auto i = players.begin(); i != players.end(); ++i) {
+		auto pPlayerSprite = PlayerSprite::create();
+		pPlayerSprite->SetPlayerInfo(*(i->second));
+		pPlayerSprite->setScale(0.3f);
+		this->addChild(pPlayerSprite);
+	}
+}
+
+void MapLayer::ClearPlayers()
+{
+	auto children = this->getChildren();
+	for(unsigned int i = 0; i < children->count();) {
+		auto player = children->objectAtIndex(i);
+		auto spritePlayer = dynamic_cast<PlayerSprite*>(player);
+		if (spritePlayer && spritePlayer->getTag() != kMyHeroTag) {
+			children->removeObjectAtIndex(i);
+		}
+		else {
+			++i;
+		}
+	}
 }

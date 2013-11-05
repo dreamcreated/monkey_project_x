@@ -4,6 +4,8 @@
 #include <common/messages/scene_messages.pb.h>
 #include <boost/shared_ptr.hpp>
 
+typedef std::map<int, boost::shared_ptr<common::player_info>> players_map_type;
+
 class scene_system
 	: public monkey::service::system_service
 	, public monkey::utils::singleton<scene_system>
@@ -21,5 +23,12 @@ public:
 
 	scene_system(void);
 	~scene_system(void);
+
+	const players_map_type& get_players() const;
+private:
+	bool register_player(int player_id, const boost::shared_ptr<common::player_info> player_info);
+	bool unregister_player(int player_id);
+	void clear();
+	players_map_type m_players;
 };
 
