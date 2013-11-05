@@ -40,7 +40,13 @@ void scene_system::on_user_enter( boost::shared_ptr<monkey::net::session> pSessi
 
 void scene_system::on_user_leave( boost::shared_ptr<monkey::net::session> pSession )
 {
+	auto pClientContext = boost::dynamic_pointer_cast<client_context>(pSession);
 
+	auto& playerSet = m_scene_player.at(pClientContext->User_data().Scene_id());
+	auto playerIter = playerSet.find(pClientContext->User_data().Player_id());
+	if (playerIter != playerSet.end()) {
+		playerSet.erase(playerIter);
+	}
 }
 
 void scene_system::on_scene_enter( boost::shared_ptr<monkey::net::session> pSession, boost::shared_ptr<common::scene_enter> msg )
@@ -49,18 +55,21 @@ void scene_system::on_scene_enter( boost::shared_ptr<monkey::net::session> pSess
 	msg->PrintDebugString();
 	auto pClientContext = boost::dynamic_pointer_cast<client_context>(pSession);
 	pClientContext->User_data().Scene_id(msg->scene_id());
-	pClientContext->User_data().Player_info().CopyFrom(msg->player_info());			//TODO 暂时在这里初始化玩家的player_info结构体
+	//TODO 进入场景的初始位置
+	pClientContext->User_data().Pos_x(10);
+	pClientContext->User_data().Pos_y(10);
+	msg->mutable_player_info()->CopyFrom(pClientContext->User_data().Player_info());
 
 	auto pThis = scene_system::get_instance();
 
 	//广播给场景内的所有玩家
 	auto& playerSet = pThis->m_scene_player.at(msg->scene_id());
-	auto playerIter = playerSet.find(msg->player_info().player_id());
+	auto playerIter = playerSet.find(pClientContext->User_data().Player_id());
 	if (playerIter == playerSet.end()) {
-		playerSet.insert(msg->player_info().player_id());
+		playerSet.insert(pClientContext->User_data().Player_id());
 	}
 	auto &sessions = session_manager::get_instance()->get_session_map();
-	boost::shared_ptr<common::player_list> playerList = boost::make_shared<common::player_list>();
+	boost::shared_ptr<common::player_list> playerList(new common::player_list); //= boost::make_shared<common::player_list>();
 	for(auto i = playerSet.begin(); i != playerSet.end(); ++i) {
 		auto sessionIter = sessions.find(boost::lexical_cast<std::string>(*i));
 		if (sessionIter != sessions.end()) {
@@ -68,7 +77,7 @@ void scene_system::on_scene_enter( boost::shared_ptr<monkey::net::session> pSess
 			otherClientContext->get_connection()->send_protobuf(msg);
 
 			//构造player_list消息
-			auto pAddedPlayer = playerList->add_players();
+ 			auto pAddedPlayer = playerList->add_players();
 			pAddedPlayer->CopyFrom(otherClientContext->User_data().Player_info());
 		}
 	}

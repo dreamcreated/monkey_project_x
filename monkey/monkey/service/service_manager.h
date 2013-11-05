@@ -15,6 +15,8 @@ public:
 	void register_service(boost::shared_ptr<system_service> pService);
 	bool init();
 	void fint();
+	void on_user_enter(boost::shared_ptr<monkey::net::session> p_session);
+	void on_user_leave(boost::shared_ptr<monkey::net::session> p_session);
 private:
 	std::list<boost::shared_ptr<system_service>> services_;
 };

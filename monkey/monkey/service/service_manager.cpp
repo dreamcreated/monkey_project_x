@@ -33,3 +33,17 @@ void monkey::service::service_manager::fint()
 		(*i)->fint();
 	}
 }
+
+void monkey::service::service_manager::on_user_enter( boost::shared_ptr<monkey::net::session> p_session )
+{
+	for(auto i = services_.begin(); i != services_.end(); ++i) {
+		(*i)->on_user_enter(p_session);
+	}
+}
+
+void monkey::service::service_manager::on_user_leave( boost::shared_ptr<monkey::net::session> p_session )
+{
+	for(auto i = services_.begin(); i != services_.end(); ++i) {
+		(*i)->on_user_leave(p_session);
+	}
+}

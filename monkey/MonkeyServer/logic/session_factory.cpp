@@ -42,6 +42,7 @@ std::string session_factory::on_verify_successed( boost::shared_ptr<monkey::net:
 		assert(false);
 	}
 	static int session_id = 0;
+	pClientContext->User_data().Player_info().set_player_id(session_id);
 	return boost::lexical_cast<std::string>(session_id++);
 }
 

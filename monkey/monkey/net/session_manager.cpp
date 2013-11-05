@@ -1,4 +1,5 @@
 #include "session_manager.h"
+#include "../service/service_manager.h"
 
 namespace monkey {
 namespace net {
@@ -36,10 +37,13 @@ void monkey::net::session_manager::register_session( const std::string& key, boo
 {
 	auto ret = sessions_.insert(std::make_pair(key, p_session));
 	assert(ret.second);
+	monkey::service::service_manager::get_instance()->on_user_enter(p_session);
 }
 
 void monkey::net::session_manager::unregister_session( const std::string& key )
 {
+	auto p_session = sessions_.at(key);
+	monkey::service::service_manager::get_instance()->on_user_leave(p_session);
 	auto ret = sessions_.erase(key);
 	assert(ret == 1);
 }
