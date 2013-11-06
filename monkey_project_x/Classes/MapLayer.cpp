@@ -152,7 +152,6 @@ void MapLayer::ReloadPlayers()
 	for(auto i = players.begin(); i != players.end(); ++i) {
 		auto pPlayerSprite = PlayerSprite::create();
 		pPlayerSprite->SetPlayerInfo(*(i->second));
-		pPlayerSprite->setScale(0.3f);
 		this->addChild(pPlayerSprite);
 	}
 }

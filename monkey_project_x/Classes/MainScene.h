@@ -13,8 +13,6 @@ public:
 	CREATE_FUNC(MainScene);
 	MapLayer* GetMapLayer();
 private:
-	MapLayer* m_map_layer;
-
 	enum {
 		kMapLayerTag
 	};

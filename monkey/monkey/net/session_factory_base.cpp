@@ -8,10 +8,10 @@ boost::shared_ptr<session> session_factory_base::create_session( boost::shared_p
 {
 	if (verify_connection(conn, message)) {
 		boost::shared_ptr<session> pSession = new_session(message);
-		conn->session_key_ = on_verify_successed(pSession, message);
-		session_manager::get_instance()->register_session(conn->session_key_, pSession);
 		conn->session_ = pSession;
 		pSession->connection_ = conn;
+		conn->session_key_ = on_verify_successed(pSession, message);
+		session_manager::get_instance()->register_session(conn->session_key_, pSession);
 		return pSession;
 	}
 	else {

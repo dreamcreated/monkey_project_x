@@ -56,4 +56,5 @@ void PlayerSprite::SetPlayerInfo( const ::common::player_info& info )
 	this->setPosition(ccp(info.player_position().x(), info.player_position().y()));
 	m_player_info = info;
 	this->setTag(GetTagByPlayerID());
+	this->setScale(0.3f);
 }

@@ -22,12 +22,13 @@ bool session_factory::verify_connection( boost::shared_ptr<monkey::net::connecti
 		pLogin->PrintDebugString();
 		boost::shared_ptr<common::LoginReturn> p_login_return(new common::LoginReturn);
 		if (pLogin->password() == "1") {
-			p_login_return->set_login_successed(true);
-			conn->send_protobuf(p_login_return);
 			return true;
 		}
-		p_login_return->set_login_successed(false);
-		conn->send_protobuf(p_login_return);
+		else {
+			boost::shared_ptr<common::LoginReturn> p_login_return(new common::LoginReturn);
+			p_login_return->set_login_successed(false);
+			conn->send_protobuf(p_login_return);
+		}
 	}
 	return false;
 }
@@ -42,6 +43,13 @@ std::string session_factory::on_verify_successed( boost::shared_ptr<monkey::net:
 		assert(false);
 	}
 	static int session_id = 0;
+
+
+	boost::shared_ptr<common::LoginReturn> p_login_return(new common::LoginReturn);
+	p_login_return->set_login_successed(true);
+	p_login_return->set_player_id(session_id);
+	pSession->get_connection()->send_protobuf(p_login_return);
+
 	pClientContext->User_data().Player_info().set_player_id(session_id);
 	return boost::lexical_cast<std::string>(session_id++);
 }
@@ -50,6 +58,7 @@ void session_factory::on_verify_failed( boost::shared_ptr<google::protobuf::Mess
 {
 	std::cout << message->GetTypeName() << "verify failed" << std::endl;
 	message->PrintDebugString();
+
 }
 
 boost::shared_ptr<monkey::net::session> session_factory::new_session( boost::shared_ptr<google::protobuf::Message> message ) const

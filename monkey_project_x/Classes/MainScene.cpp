@@ -9,19 +9,19 @@ bool MainScene::init()
 
 bool MainScene::ChangeMap( int mapid )
 {
-	if (m_map_layer) {
-		this->removeChild(m_map_layer);
-		m_map_layer->release();
+	auto oldMapLayer = GetMapLayer();
+	if (oldMapLayer) {
+		this->removeChild(oldMapLayer);
+		oldMapLayer->release();
 	}
-	m_map_layer = MapLayer::create();
-	m_map_layer->SetMapID(mapid);
-	m_map_layer->setTag(kMapLayerTag);
-	this->addChild(m_map_layer);
+	oldMapLayer = MapLayer::create();
+	oldMapLayer->SetMapID(mapid);
+	oldMapLayer->setTag(kMapLayerTag);
+	this->addChild(oldMapLayer);
 	return true;
 }
 
 MainScene::MainScene()
-	: m_map_layer(NULL)
 {
 
 }

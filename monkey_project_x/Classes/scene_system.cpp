@@ -34,7 +34,7 @@ void scene_system::on_scene_enter( boost::shared_ptr<monkey::net::session> pSess
 	if (msg->player_info().player_id() == ClientUserData::get_instance()->Player_id()) {
 		MainScene *mainScene = MainScene::create();
 		mainScene->ChangeMap(1);
-		CCDirector::sharedDirector()->replaceScene(CCTransitionJumpZoom::create(1.0f, mainScene));
+		CCDirector::sharedDirector()->replaceScene(mainScene);
 	}
 	else {
 		auto pPlayer = PlayerSprite::create();
